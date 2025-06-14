@@ -1,0 +1,29 @@
+name: CI - Lint and Build
+
+on:
+  pull_request:
+    branches: [ "develop" ]
+  push:
+    branches: [ "main" ]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ['9.0.x']
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Lint (dotnet format)
+      run: dotnet format DotnetObserve.sln --verify-no-changes --severity error
+
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
