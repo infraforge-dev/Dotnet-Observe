@@ -35,7 +35,6 @@ public class JsonFileStore<T> : IStore<T>
         newList.Add(item);
 
         await File.WriteAllTextAsync(_filePath, JsonSerializer.Serialize(newList, _jsonOptions));
-    
     }
 
     public async Task<IReadOnlyCollection<T>> ReadAllAsync()
