@@ -1,7 +1,7 @@
 namespace DotnetObserve.Core.Models
 {
     public class LogEntry
-    { 
+    {
         public Guid Id { get; set; }
 
         public DateTime TimeStamp { get; set; }
