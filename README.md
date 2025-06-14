@@ -8,15 +8,16 @@
 
 1. [Mission Statement](#mission-statement)
 2. [Features](#features)
-3. [Quickstart](#quickstart)
-4. [Data Model Overview](#data-model-overview)
-5. [CLI Overview](#cli-overview)
-6. [MVP User Stories](#mvp-user-stories)
-7. [Roadmap](#roadmap)
-8. [Vision](#vision)
-9. [License](#license)
-10. [Contributing](#contributing)
-11. [Author](#author)
+3. [Project Structure](#project-structure)
+4. [Quickstart](#quickstart)
+5. [Data Model Overview](#data-model-overview)
+6. [CLI Overview](#cli-overview)
+7. [MVP User Stories](#mvp-user-stories)
+8. [Roadmap](#roadmap)
+9. [Vision](#vision)
+10. [License](#license)
+11. [Contributing](#contributing)
+12. [Author](#author)
 
 ---
 
@@ -35,6 +36,19 @@
 - 🔗 **Trace Support:** Track requests and operations with trace and span IDs.
 - 🔧 **Minimal Configuration:** Just works—but ready to extend and scale.
 - 📖 **Professional Documentation:** Easy onboarding, clear API, and plenty of examples.
+
+---
+
+## Project Structure
+
+- [`src/DotnetObserve.Middleware/`](./src/DotnetObserve.Middleware) — Observability middleware (logs, metrics, traces)
+- [`src/DotnetObserve.Cli/`](./src/DotnetObserve.Cli) — CLI entry point (dotnet-observe)
+- [`src/DotnetObserve.Core/`](./src/DotnetObserve.Core) — Shared models, config, interfaces
+- [`tests/`](./tests) — Unit tests for CLI and core functionality
+- [`docs/`](./docs) — Design notes, architecture diagrams, planning docs
+- [`.github/workflows/`](./.github/workflows) — GitHub Actions CI/CD definitions
+- [`DotnetObserve.sln`](./DotnetObserve.sln) — Solution file
+- [`README.md`](./README.md), [`LICENSE`](./LICENSE), [`CONTRIBUTING.md`](./CONTRIBUTING.md)
 
 ---
 
