@@ -1,0 +1,34 @@
+name: CI – Lint, Build & Test
+
+on:
+  # Run on pull requests *targeting* develop
+  pull_request:
+    branches: [ "develop" ]
+  # Run on direct pushes to main (e.g., after PR is merged)
+  push:
+    branches: [ "main" ]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ../DotnetObserve
+    strategy:
+      matrix:
+        dotnet-version: ['8.0.x']
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Lint (dotnet format)
+      run: dotnet format DotnetObserve.sln --verify-no-changes --severity error
+
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
