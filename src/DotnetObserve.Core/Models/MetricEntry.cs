@@ -1,17 +1,37 @@
-namespace DotnetObserve.Core.Models
+namespace DotnetObserve.Core.Models;
+
+/// <summary>
+/// Represents a recorded metric such as duration, count, or error rate.
+/// </summary>
+public class MetricEntry
 {
-    public class MetricEntry
-    {
-        public Guid Id { get; set; } = Guid.NewGuid();
+    /// <summary>
+    /// Unique identifier for the metric entry.
+    /// </summary>
+    public Guid Id { get; set; } = Guid.NewGuid();
 
-        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+    /// <summary>
+    /// UTC timestamp when the metric was recorded.
+    /// </summary>
+    public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
-        public string Name { get; set; } = string.Empty; // e.g., RequestDuration
+    /// <summary>
+    /// Name of the metric (e.g., RequestDuration, ErrorRate).
+    /// </summary>
+    public string Name { get; set; } = string.Empty;
 
-        public double Value { get; set; }
+    /// <summary>
+    /// Value of the metric.
+    /// </summary>
+    public double Value { get; set; }
 
-        public string? Unit { get; set; } // ms, %, count, etc.
+    /// <summary>
+    /// Optional unit of measurement (e.g., ms, %, count).
+    /// </summary>
+    public string? Unit { get; set; }
 
-        public string? Tags { get; set; } // e.g., endpoint=/api/orders;status=200
-    }
+    /// <summary>
+    /// Optional tagging information for filtering or aggregation.
+    /// </summary>
+    public string? Tags { get; set; }
 }

@@ -1,13 +1,27 @@
-namespace DotnetObserve.Core
+namespace DotnetObserve.Core.Models;
+
+/// <summary>
+/// Configuration settings for controlling observability behavior.
+/// </summary>
+public class ToolkitConfig
 {
-    public class ToolkitConfig
-    {
-        public string LogLevel { get; set; } = "Info"; // Info, Debug, Warn, Error
+    /// <summary>
+    /// Global log level (e.g., Info, Debug, Error).
+    /// </summary>
+    public string LogLevel { get; set; } = "Info";
 
-        public bool EnableMetrics { get; set; } = true;
+    /// <summary>
+    /// Enables or disables metrics collection.
+    /// </summary>
+    public bool EnableMetrics { get; set; } = true;
 
-        public bool EnableTracing { get; set; } = true;
+    /// <summary>
+    /// Enables or disables trace span tracking.
+    /// </summary>
+    public bool EnableTracing { get; set; } = true;
 
-        public string Exporter { get; set; } = "File"; // Console, File, Prometheus, etc.
-    }
+    /// <summary>
+    /// Output target for logs and metrics (e.g., File, Console, Prometheus).
+    /// </summary>
+    public string Exporter { get; set; } = "File";
 }

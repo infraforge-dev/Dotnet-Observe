@@ -1,21 +1,47 @@
-namespace DotnetObserve.Core.Models
+namespace DotnetObserve.Core.Models;
+
+/// <summary>
+/// Represents a structured application log event with optional context and correlation.
+/// </summary>
+public class LogEntry
 {
-    public class LogEntry
-    {
-        public Guid Id { get; set; }
+    /// <summary>
+    /// Unique identifier for the log entry.
+    /// </summary>
+    public Guid Id { get; set; } = Guid.NewGuid();
 
-        public DateTime TimeStamp { get; set; }
+    /// <summary>
+    /// UTC timestamp of when the log entry was recorded.
+    /// </summary>
+    public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
-        public string Level { get; set; } = "Info";
+    /// <summary>
+    /// Severity level of the log (e.g., Info, Warn, Error).
+    /// </summary>
+    public string Level { get; set; } = "Info";
 
-        public string Message { get; set; } = string.Empty;
+    /// <summary>
+    /// Main message describing the log event.
+    /// </summary>
+    public string Message { get; set; } = string.Empty;
 
-        public string Source { get; set; } = "Application";
+    /// <summary>
+    /// Logical source of the log event (e.g., API, BackgroundJob).
+    /// </summary>
+    public string Source { get; set; } = "App";
 
-        public string? Exception { get; set; }
+    /// <summary>
+    /// Optional exception message or stack trace.
+    /// </summary>
+    public string? Exception { get; set; }
 
-        public string? CorrelationId { get; set; }
+    /// <summary>
+    /// Optional correlation ID to link related log entries and traces.
+    /// </summary>
+    public string? CorrelationId { get; set; }
 
-        public Dictionary<string, object>? Context { get; set; }
-    }
+    /// <summary>
+    /// Optional dictionary of structured key-value context fields.
+    /// </summary>
+    public Dictionary<string, object>? Context { get; set; }
 }
