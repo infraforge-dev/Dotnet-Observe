@@ -1,19 +1,14 @@
 name: CI – Lint, Build & Test
 
 on:
-  # Run on pull requests *targeting* develop
   pull_request:
     branches: [ "develop" ]
-  # Run on direct pushes to main (e.g., after PR is merged)
   push:
     branches: [ "main" ]
 
 jobs:
   ci:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ../DotnetObserve
     strategy:
       matrix:
         dotnet-version: ['8.0.x']
