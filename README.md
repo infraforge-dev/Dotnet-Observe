@@ -77,8 +77,38 @@
  dotnet-observe metrics
  dotnet-observe traces --correlation abc123
  ```
+---
 
-   ---
+## CLI Usage
+
+### Tail logs
+```bash
+dotnet-observe tail
+```
+
+### Filter by level
+```bash
+dotnet-observe tail --level Error
+```
+
+### Limit output
+```bash
+dotnet-observe tail --take 10
+```
+
+### JSON output
+You can show logs in raw JSON format:
+- Pretty-printed (indented):
+  
+  ```bash
+  dotnet-observe tail --json pretty
+  ```
+- Compact (one line):
+  ```bash
+  dotnet-observe tail --json compact
+  ```
+---
+
 
 ## Data Model Overview
 
