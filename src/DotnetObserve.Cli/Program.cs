@@ -68,21 +68,21 @@ tailCommand.SetHandler<int?, string?, string?>(
     }
 
     foreach (var log in filtered)
+    {
+        if (!string.IsNullOrWhiteSpace(jsonMode))
         {
-            if (!string.IsNullOrWhiteSpace(jsonMode))
+            var rawJson = JsonSerializer.Serialize(log, new JsonSerializerOptions
             {
-                var rawJson = JsonSerializer.Serialize(log, new JsonSerializerOptions
-                {
-                    WriteIndented = isPretty
-                });
+                WriteIndented = isPretty
+            });
 
-                Console.WriteLine(rawJson);
-            }
-            else
-            {
-                AnsiConsole.MarkupLine(LogFormatter.Format(log));
-            }
+            Console.WriteLine(rawJson);
         }
+        else
+        {
+            AnsiConsole.MarkupLine(LogFormatter.Format(log));
+        }
+    }
 }, takeOption, levelOption, jsonOption);
 
 // Add commands to root and run

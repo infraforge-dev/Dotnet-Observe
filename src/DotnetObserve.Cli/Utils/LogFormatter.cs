@@ -33,7 +33,7 @@ namespace DotnetObserve.Cli.Utils
 
             var output = $"[{timeStamp}] [{level}] {log.Message}";
 
-             if (log.Context != null)
+            if (log.Context != null)
             {
                 var path = log.Context.TryGetValue("Path", out var p) ? p?.ToString() : "N/A";
                 var status = log.Context.TryGetValue("StatusCode", out var s) ? s?.ToString() : "N/A";
