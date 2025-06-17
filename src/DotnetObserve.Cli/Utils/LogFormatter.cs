@@ -23,7 +23,7 @@ namespace DotnetObserve.Cli.Utils
             var timeStamp = $"[grey]{log.Timestamp:yyyy-MM-dd HH:mm:ss}[/]";
             var message = $"{emoji}  [bold]{log.Message}[/]";
 
-            var output = $"{timeStamp} {levelMarkup} {message}";
+            var output = $"\n {timeStamp} {levelMarkup} {message}";
 
             if (log.Context != null)
             {
@@ -31,7 +31,16 @@ namespace DotnetObserve.Cli.Utils
                 var status = log.Context.TryGetValue("StatusCode", out var s) ? s?.ToString() : "N/A";
                 var duration = log.Context.TryGetValue("DurationMs", out var d) ? d?.ToString() : "N/A";
 
-                output += $"\n [grey] ↳ Path:[/] {path} [grey]| Status:[/] {status} [grey]| Duration:[/] {duration}ms\n";
+                output += $"\n [grey] ↳ Path:[/] {path} [grey]| Status:[/] {status} [grey]| Duration:[/] {duration}ms";
+            }
+
+            if (log.Level == LogLevels.Error && log.Context is not null)
+            {
+                if (log.Context.TryGetValue("ExceptionMessage", out var exMsg))
+                    output += $"\n [red]🛑 Exception:[/] {exMsg}";
+
+                if (log.Context.TryGetValue("ExceptionLocation", out var location))
+                    output += $"\n [grey] ↳ Location:[/] {location}";
             }
 
             return output;
