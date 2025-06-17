@@ -10,6 +10,7 @@
 ///   - `--take`, `-n`: Limit the number of entries
 ///   - `--level`, `-l`: Filter logs by level (Info, Warn, Error, etc.)
 ///   - `--json`: Output format (pretty | compact)
+///   - `--since`: Only logs with a timestamp after this value will be returned
 /// </remarks>
 
 using System.CommandLine;
@@ -54,17 +55,22 @@ var jsonOption = new Option<string>(
     description: "Output log entries in JSON format. Options: 'pretty' or 'compact'"
 );
 
+var sinceOption = new Option<DateTimeOffset?>(
+    name: "--since",
+    description: "Only include logs after this UTC timestamp (e.g. 2025-06-17T08:00:00Z)"
+);
+
 // Attach options to command
 tailCommand.AddOption(takeOption);
 tailCommand.AddOption(levelOption);
 tailCommand.AddOption(jsonOption);
+tailCommand.AddOption(sinceOption);
 
 /// <summary>
 /// Main handler for the 'tail' command. Applies filters and outputs logs using
 /// Spectre.Console or JSON formatting.
 /// </summary>
-tailCommand.SetHandler<int?, string?, string?>(
-    async (int? take, string? level, string? jsonMode) =>
+tailCommand.SetHandler(async (take, level, jsonMode, since) =>
 {
     var logs = await logStore.ReadAllAsync();
 
@@ -75,12 +81,11 @@ tailCommand.SetHandler<int?, string?, string?>(
         return;
     }
 
-    var filtered = logs
-        .OrderByDescending(e => e.Timestamp)
-        .Where(e =>
-            string.IsNullOrWhiteSpace(level) ||
-            (e.Level?.Equals(level, StringComparison.OrdinalIgnoreCase) ?? false))
-        .Take(take ?? 50);
+    var filtered = LogFilter.Apply(
+        logs.OrderByDescending(e => e.Timestamp),
+        level,
+        since
+    ).Take(take ?? 50);
 
     var isPretty = string.Equals(jsonMode, "pretty", StringComparison.OrdinalIgnoreCase);
     var isCompact = string.Equals(jsonMode, "compact", StringComparison.OrdinalIgnoreCase);
@@ -110,7 +115,7 @@ tailCommand.SetHandler<int?, string?, string?>(
             Console.WriteLine(LogFormatter.FormatPlainText(log));
         }
     }
-}, takeOption, levelOption, jsonOption);
+}, takeOption, levelOption, jsonOption, sinceOption);
 
 // Register root command
 var rootCommand = new RootCommand("dotnet-observe CLI tool");
