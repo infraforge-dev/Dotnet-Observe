@@ -7,19 +7,30 @@ using Microsoft.AspNetCore.Http;
 namespace DotnetObserve.Middleware;
 
 /// <summary>
-/// Middleware that logs incoming requests and errors to the log store.
+/// Middleware that automatically captures structured logs for each HTTP request, including timing,
+/// status codes, and exceptions. Logs are written to an <see cref="IStore{T}"/> of <see cref="LogEntry"/>.
 /// </summary>
 public class ObservabilityMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly IStore<LogEntry> _logStore;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ObservabilityMiddleware"/> class.
+    /// </summary>
+    /// <param name="next">The next middleware in the ASP.NET Core pipeline.</param>
+    /// <param name="logStore">The log store to which structured log entries will be written.</param>
     public ObservabilityMiddleware(RequestDelegate next, IStore<LogEntry> logStore)
     {
         _next = next;
         _logStore = logStore;
     }
 
+    /// <summary>
+    /// Executes the middleware logic for each incoming HTTP request.
+    /// Captures timing, status codes, and exception metadata, and writes a structured log entry.
+    /// </summary>
+    /// <param name="context">The HTTP context for the current request.</param>
     public async Task InvokeAsync(HttpContext context)
     {
         var entry = new LogEntry
@@ -67,7 +78,7 @@ public class ObservabilityMiddleware
                 ["StatusCode"] = context.Response.StatusCode,
                 ["ExceptionType"] = ex.GetType().Name,
                 ["ExceptionLocation"] = ex.StackTrace?
-                    .Split(["\r\n", "\n"], StringSplitOptions.RemoveEmptyEntries)
+                    .Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)
                     .FirstOrDefault()
                     ?.Trim(),
                 ["ExceptionMessage"] = ex.Message,
