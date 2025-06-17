@@ -78,9 +78,13 @@ tailCommand.SetHandler<int?, string?, string?>(
 
             Console.WriteLine(rawJson);
         }
-        else
+        else if (AnsiConsole.Profile.Capabilities.Ansi)
         {
             AnsiConsole.MarkupLine(LogFormatter.Format(log));
+        }
+        else
+        {
+            Console.WriteLine(LogFormatter.FormatPlainText(log));
         }
     }
 }, takeOption, levelOption, jsonOption);
