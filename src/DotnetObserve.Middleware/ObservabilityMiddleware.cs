@@ -54,6 +54,8 @@ public class ObservabilityMiddleware
         }
         catch (Exception ex)
         {
+            context.Response.StatusCode = 500;
+
             entry.Level = LogLevels.Error;
             entry.Message = $"Exception thrown: {ex.Message}";
             entry.Exception = ex.ToString();
@@ -62,6 +64,7 @@ public class ObservabilityMiddleware
             {
                 ["Method"] = context.Request.Method,
                 ["Path"] = context.Request.Path.ToUriComponent(),
+                ["StatusCode"] = context.Response.StatusCode,
                 ["ExceptionType"] = ex.GetType().Name,
                 ["ExceptionLocation"] = ex.StackTrace?
                     .Split(["\r\n", "\n"], StringSplitOptions.RemoveEmptyEntries)
