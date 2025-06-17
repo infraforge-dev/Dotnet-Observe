@@ -35,12 +35,12 @@ public class ObservabilityMiddleware
 
             entry.Level = "Info";
             entry.Message = $"{context.Request.Method} {context.Request.Path} returned {context.Response.StatusCode}";
-            entry.Context = new Dictionary<string, object>
+            entry.Context = new Dictionary<string, object?>
             {
                 ["DurationMs"] = stopwatch.ElapsedMilliseconds,
                 ["StatusCode"] = context.Response.StatusCode,
                 ["Method"] = context.Request.Method,
-                ["Path"] = context.Request.Path
+                ["Path"] = context.Request.Path.ToUriComponent()
             };
         }
         catch (Exception ex)

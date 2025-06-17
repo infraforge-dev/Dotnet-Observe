@@ -43,5 +43,5 @@ public class LogEntry
     /// <summary>
     /// Optional dictionary of structured key-value context fields.
     /// </summary>
-    public Dictionary<string, object>? Context { get; set; }
+    public Dictionary<string, object?> Context { get; set; } = [];
 }
