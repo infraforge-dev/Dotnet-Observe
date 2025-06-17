@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using DotnetObserve.Core.Constants;
 using DotnetObserve.Core.Models;
 using DotnetObserve.Core.Storage;
 using Microsoft.AspNetCore.Http;
@@ -33,7 +34,15 @@ public class ObservabilityMiddleware
             await _next(context);
             stopwatch.Stop();
 
-            entry.Level = "Info";
+            int status = context.Response.StatusCode;
+
+            entry.Level = status switch
+            {
+                >= 500 => LogLevels.Error,
+                >= 400 => LogLevels.Warning,
+                _ => LogLevels.Info
+            };
+
             entry.Message = $"{context.Request.Method} {context.Request.Path} returned {context.Response.StatusCode}";
             entry.Context = new Dictionary<string, object?>
             {
@@ -45,9 +54,26 @@ public class ObservabilityMiddleware
         }
         catch (Exception ex)
         {
-            entry.Level = "Error";
+            Console.WriteLine("RAW STACKTRACE:");
+            Console.WriteLine(ex.StackTrace ?? "<null>");
+
+            entry.Level = LogLevels.Error;
             entry.Message = $"Exception thrown: {ex.Message}";
             entry.Exception = ex.ToString();
+
+            entry.Context = new Dictionary<string, object?>
+            {
+                ["Method"] = context.Request.Method,
+                ["Path"] = context.Request.Path.ToUriComponent(),
+                ["ExceptionType"] = ex.GetType().Name,
+                ["ExceptionLocation"] = ex.StackTrace?
+                    .Split(["\r\n", "\n"], StringSplitOptions.RemoveEmptyEntries)
+                    .FirstOrDefault()
+                    ?.Trim(),
+                ["ExceptionMessage"] = ex.Message,
+                ["StackTrace"] = ex.StackTrace
+            };
+
             throw;
         }
         finally

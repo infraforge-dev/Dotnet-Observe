@@ -17,4 +17,6 @@ app.UseMiddleware<ObservabilityMiddleware>();
 
 app.MapGet("/hello", () => "Hello from SampleApi!");
 
+app.MapGet("/throw", context => throw new InvalidOperationException("Something broke"));
+
 app.Run();
