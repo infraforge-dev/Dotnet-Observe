@@ -54,9 +54,6 @@ public class ObservabilityMiddleware
         }
         catch (Exception ex)
         {
-            Console.WriteLine("RAW STACKTRACE:");
-            Console.WriteLine(ex.StackTrace ?? "<null>");
-
             entry.Level = LogLevels.Error;
             entry.Message = $"Exception thrown: {ex.Message}";
             entry.Exception = ex.ToString();
