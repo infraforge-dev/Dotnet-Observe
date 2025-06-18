@@ -13,17 +13,20 @@ namespace DotnetObserve.Cli.Utils
         /// <param name="logs">The collection of log entries to filter.</param>
         /// <param name="level">Optional log level to filter by (e.g., "Error", "Info").</param>
         /// <param name="since">Optional timestamp. Only logs with a timestamp after this value will be returned.</param>
+        /// <param name="contains">Optional search. Only show logs that contain this keyword in message or context</param>
         /// <returns>A filtered enumerable of <see cref="LogEntry"/> objects.</returns>
         public static IEnumerable<LogEntry> Apply(
             IEnumerable<LogEntry> logs,
             string? level = null,
-            DateTimeOffset? since = null)
+            DateTimeOffset? since = null,
+            string? contains = null)
         {
-            return logs
-                .Where(log =>
-                (string.IsNullOrWhiteSpace(level) ||
-                    log.Level?.Equals(level, StringComparison.OrdinalIgnoreCase) == true) &&
-                (!since.HasValue || log.Timestamp >= since.Value));
+            return logs.Where(log =>
+                (string.IsNullOrWhiteSpace(level) || log.Level?.Equals(level, StringComparison.OrdinalIgnoreCase) == true) &&
+                (!since.HasValue || log.Timestamp >= since.Value) &&
+                (string.IsNullOrWhiteSpace(contains) ||
+                    log.Message.Contains(contains, StringComparison.OrdinalIgnoreCase) ||
+                    log.Context?.Any(kv => kv.Value?.ToString()?.Contains(contains, StringComparison.OrdinalIgnoreCase) == true) == true));
         }
 
     }

@@ -86,7 +86,7 @@
 ---
 
 ## Quickstart
-
+### COMING SOON!
 1. **Install the NuGet package**
 
  ```sh
@@ -122,6 +122,8 @@ Stream recent logs with filtering and formatting options.
 - `--level`, `-l` — Filter by log level (e.g., Info, Warn, Error)
 - `--since` — Only show logs after this UTC timestamp (`2025-06-17T00:00:00Z`)
 - `--json` — Output format: `pretty` (indented) or `compact` (single-line)
+- `--contains` — Filter logs by keyword search (in message or context)
+- `--page-size` — Display logs in pages (e.g., `--page-size 10` shows 10 logs at a time)
 
 #### Examples:
 ```bash
@@ -137,6 +139,15 @@ dotnet-observe tail --level Error
 
 # Combine filters: last 50 error logs since a date, in JSON
 dotnet-observe tail --level Error --since "2025-06-16T22:00:00Z" --take 50 --json pretty
+
+# Search logs containing "timeout"
+dotnet-observe tail --contains timeout
+
+# Combine filters: last 25 error logs containing "redis"
+dotnet-observe tail --level Error --contains redis --take 25
+
+# Pretty JSON, 10 at a time
+dotnet-observe tail --json pretty --page-size 10
 ```
 ### Coming soon
 - `metrics`: Display and export performance metrics
