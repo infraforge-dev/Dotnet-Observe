@@ -1,3 +1,5 @@
+![Dotnet-Observe Banner](./assets/dotnet-observe-mod.png)
+
 # Dotnet-Observe
 
 **Plug-and-Play Observability Toolkit for .NET**
