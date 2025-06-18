@@ -14,7 +14,7 @@ public class LogEntryTests
         entry.Id.Should().NotBeEmpty();
         entry.Timestamp.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(5));
         entry.Level.Should().Be("Info");
-        entry.Context.Should().BeNull();
+        entry.Context.Should().BeEmpty();
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class LogEntryTests
             Message = "Test log message",
             Source = "UnitTest",
             CorrelationId = "corr-123",
-            Context = new Dictionary<string, object>
+            Context = new Dictionary<string, object?>
             {
                 { "UserId", 42 },
                 { "Operation", "TestOp" }
@@ -43,8 +43,8 @@ public class LogEntryTests
         roundTripEntry.Source.Should().Be(entry.Source);
         roundTripEntry.CorrelationId.Should().Be(entry.CorrelationId);
         roundTripEntry.Context!["UserId"].Should().BeOfType<JsonElement>();
-        ((JsonElement)roundTripEntry.Context!["UserId"]).GetInt32().Should().Be(42);
+        roundTripEntry.Context!["UserId"].Should().BeOfType<JsonElement>().Which.GetInt32().Should().Be(42);
         roundTripEntry.Context!["Operation"].Should().BeOfType<JsonElement>();
-        ((JsonElement)roundTripEntry.Context!["Operation"]).GetString().Should().Be("TestOp");
+        roundTripEntry.Context!["Operation"].Should().BeOfType<JsonElement>().Which.GetString().Should().Be("TestOp");
     }
 }

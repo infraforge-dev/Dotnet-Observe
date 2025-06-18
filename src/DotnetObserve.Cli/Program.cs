@@ -60,17 +60,32 @@ var sinceOption = new Option<DateTimeOffset?>(
     description: "Only include logs after this UTC timestamp (e.g. 2025-06-17T08:00:00Z)"
 );
 
+var containsOption = new Option<string>(
+    name: "--contains",
+    description: "Only show logs that contain this keyword in message or context"
+);
+
+var pageSizeOption = new Option<int?>(
+    name: "--page-size",
+    description: "Page through logs X at a time (press key to continue)",
+    getDefaultValue: () => 0
+);
+
 // Attach options to command
 tailCommand.AddOption(takeOption);
 tailCommand.AddOption(levelOption);
 tailCommand.AddOption(jsonOption);
 tailCommand.AddOption(sinceOption);
+tailCommand.AddOption(containsOption);
+tailCommand.AddOption(pageSizeOption);
 
 /// <summary>
 /// Main handler for the 'tail' command. Applies filters and outputs logs using
 /// Spectre.Console or JSON formatting.
 /// </summary>
-tailCommand.SetHandler(async (take, level, jsonMode, since) =>
+tailCommand.SetHandler<int?, string?, string?, DateTimeOffset?, string?, int?>(
+    async (take, level, jsonMode, since, contains, pageSize) =>
+
 {
     var logs = await logStore.ReadAllAsync();
 
@@ -81,12 +96,6 @@ tailCommand.SetHandler(async (take, level, jsonMode, since) =>
         return;
     }
 
-    var filtered = LogFilter.Apply(
-        logs.OrderByDescending(e => e.Timestamp),
-        level,
-        since
-    ).Take(take ?? 50);
-
     var isPretty = string.Equals(jsonMode, "pretty", StringComparison.OrdinalIgnoreCase);
     var isCompact = string.Equals(jsonMode, "compact", StringComparison.OrdinalIgnoreCase);
 
@@ -95,27 +104,18 @@ tailCommand.SetHandler(async (take, level, jsonMode, since) =>
         AnsiConsole.MarkupLine("[red]❌ Invalid --json mode. Use 'pretty' or 'compact'.[/]");
     }
 
-    foreach (var log in filtered)
-    {
-        if (!string.IsNullOrWhiteSpace(jsonMode))
-        {
-            var rawJson = JsonSerializer.Serialize(log, new JsonSerializerOptions
-            {
-                WriteIndented = isPretty
-            });
+    var filtered = LogFilter
+        .Apply(
+            logs.OrderByDescending(e => e.Timestamp),
+            level,
+            since,
+            contains
+        )
+        .Take(take ?? 50);
 
-            Console.WriteLine(rawJson);
-        }
-        else if (AnsiConsole.Profile.Capabilities.Ansi)
-        {
-            AnsiConsole.MarkupLine(LogFormatter.Format(log));
-        }
-        else
-        {
-            Console.WriteLine(LogFormatter.FormatPlainText(log));
-        }
-    }
-}, takeOption, levelOption, jsonOption, sinceOption);
+    LogPager.Display(filtered, pageSize ?? 0, jsonMode);
+
+}, takeOption, levelOption, jsonOption, sinceOption, containsOption, pageSizeOption);
 
 // Register root command
 var rootCommand = new RootCommand("dotnet-observe CLI tool");
