@@ -15,22 +15,12 @@ public class ObservabilityMiddleware
     private readonly RequestDelegate _next;
     private readonly IStore<LogEntry> _logStore;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ObservabilityMiddleware"/> class.
-    /// </summary>
-    /// <param name="next">The next middleware in the ASP.NET Core pipeline.</param>
-    /// <param name="logStore">The log store to which structured log entries will be written.</param>
     public ObservabilityMiddleware(RequestDelegate next, IStore<LogEntry> logStore)
     {
         _next = next;
         _logStore = logStore;
     }
 
-    /// <summary>
-    /// Executes the middleware logic for each incoming HTTP request.
-    /// Captures timing, status codes, and exception metadata, and writes a structured log entry.
-    /// </summary>
-    /// <param name="context">The HTTP context for the current request.</param>
     public async Task InvokeAsync(HttpContext context)
     {
         var entry = new LogEntry
@@ -39,14 +29,13 @@ public class ObservabilityMiddleware
             CorrelationId = Activity.Current?.TraceId.ToString()
         };
 
+        var stopwatch = Stopwatch.StartNew();
+
         try
         {
-            var stopwatch = Stopwatch.StartNew();
             await _next(context);
-            stopwatch.Stop();
 
             int status = context.Response.StatusCode;
-
             entry.Level = status switch
             {
                 >= 500 => LogLevels.Error,
@@ -55,13 +44,6 @@ public class ObservabilityMiddleware
             };
 
             entry.Message = $"{context.Request.Method} {context.Request.Path} returned {context.Response.StatusCode}";
-            entry.Context = new Dictionary<string, object?>
-            {
-                ["DurationMs"] = stopwatch.ElapsedMilliseconds,
-                ["StatusCode"] = context.Response.StatusCode,
-                ["Method"] = context.Request.Method,
-                ["Path"] = context.Request.Path.ToUriComponent()
-            };
         }
         catch (Exception ex)
         {
@@ -69,26 +51,26 @@ public class ObservabilityMiddleware
 
             entry.Level = LogLevels.Error;
             entry.Message = $"Exception thrown: {ex.Message}";
-            entry.Exception = ex.ToString();
+            entry.Exception = ex;
 
             entry.Context = new Dictionary<string, object?>
             {
-                ["Method"] = context.Request.Method,
-                ["Path"] = context.Request.Path.ToUriComponent(),
-                ["StatusCode"] = context.Response.StatusCode,
                 ["ExceptionType"] = ex.GetType().Name,
-                ["ExceptionLocation"] = ex.StackTrace?
-                    .Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)
-                    .FirstOrDefault()
-                    ?.Trim(),
-                ["ExceptionMessage"] = ex.Message,
-                ["StackTrace"] = ex.StackTrace
+                ["ExceptionLocation"] = ex.StackTrace?.Split('\n').FirstOrDefault()?.Trim()
             };
 
-            throw;
+            throw; // Re-throw to preserve exception behavior
         }
         finally
         {
+            stopwatch.Stop();
+
+            entry.Context ??= new Dictionary<string, object?>();
+            entry.Context["DurationMs"] = stopwatch.ElapsedMilliseconds;
+            entry.Context["StatusCode"] = context.Response.StatusCode;
+            entry.Context["Method"] = context.Request.Method;
+            entry.Context["Path"] = context.Request.Path.ToUriComponent();
+
             await _logStore.AppendAsync(entry);
         }
     }

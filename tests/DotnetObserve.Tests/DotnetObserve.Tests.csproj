@@ -27,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\DotnetObserve.Core\DotnetObserve.Core.csproj" />
     <ProjectReference Include="..\..\src\DotnetObserve.Middleware\DotnetObserve.Middleware.csproj" />
+    <ProjectReference Include="..\..\src\DotnetObserve.Cli\DotnetObserve.Cli.csproj" />
   </ItemGroup>
 
 </Project>

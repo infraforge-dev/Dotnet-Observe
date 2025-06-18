@@ -31,9 +31,9 @@ public class LogEntry
     public string Source { get; set; } = "App";
 
     /// <summary>
-    /// Optional exception message or stack trace.
+    /// Optional exception object for structured error details.
     /// </summary>
-    public string? Exception { get; set; }
+    public Exception? Exception { get; set; }
 
     /// <summary>
     /// Optional correlation ID to link related log entries and traces.

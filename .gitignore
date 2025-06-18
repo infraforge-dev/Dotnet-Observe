@@ -483,3 +483,5 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 src/SampleApi/logs.json
+project-context.json
+vision.md
