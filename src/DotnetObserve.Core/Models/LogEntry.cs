@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace DotnetObserve.Core.Models;
 
 /// <summary>
@@ -33,7 +35,11 @@ public class LogEntry
     /// <summary>
     /// Optional exception object for structured error details.
     /// </summary>
+    [JsonIgnore]
     public Exception? Exception { get; set; }
+
+    [JsonPropertyName("ExceptionMessage")]
+    public string? ExceptionMessage => Exception?.Message;
 
     /// <summary>
     /// Optional correlation ID to link related log entries and traces.
