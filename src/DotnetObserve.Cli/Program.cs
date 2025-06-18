@@ -83,18 +83,24 @@ tailCommand.AddOption(pageSizeOption);
 /// Main handler for the 'tail' command. Applies filters and outputs logs using
 /// Spectre.Console or JSON formatting.
 /// </summary>
-tailCommand.SetHandler<int?, string?, string?, DateTimeOffset?, string?, int?>(
-    async (take, level, jsonMode, since, contains, pageSize) =>
+tailCommand.SetHandler(async (take, level, jsonMode, since, contains, pageSize) =>
 
 {
     var logs = await logStore.ReadAllAsync();
 
-    if (!string.IsNullOrWhiteSpace(level) && !LogLevels.All.Contains(level))
+    if (!string.IsNullOrWhiteSpace(level))
     {
-        AnsiConsole.MarkupLine($"[red]❌ Invalid log level:[/] {level}");
-        AnsiConsole.MarkupLine($"[grey]Valid levels:[/] {string.Join(", ", LogLevels.All)}");
-        return;
+        level = level.Trim();
+        if (!LogLevels.All.Contains(level, StringComparer.OrdinalIgnoreCase))
+        {
+            AnsiConsole.MarkupLine($"[red]❌ Invalid log level:[/] {level}");
+            AnsiConsole.MarkupLine($"[grey]Valid levels:[/] {string.Join(", ", LogLevels.All)}");
+            return;
+        }
+
+        level = LogLevels.All.First(l => l.Equals(level, StringComparison.OrdinalIgnoreCase));
     }
+
 
     var isPretty = string.Equals(jsonMode, "pretty", StringComparison.OrdinalIgnoreCase);
     var isCompact = string.Equals(jsonMode, "compact", StringComparison.OrdinalIgnoreCase);
@@ -102,6 +108,7 @@ tailCommand.SetHandler<int?, string?, string?, DateTimeOffset?, string?, int?>(
     if (!string.IsNullOrWhiteSpace(jsonMode) && !isPretty && !isCompact)
     {
         AnsiConsole.MarkupLine("[red]❌ Invalid --json mode. Use 'pretty' or 'compact'.[/]");
+        return;
     }
 
     var filtered = LogFilter

@@ -22,12 +22,24 @@ namespace DotnetObserve.Cli.Utils
             string? contains = null)
         {
             return logs.Where(log =>
-                (string.IsNullOrWhiteSpace(level) || log.Level?.Equals(level, StringComparison.OrdinalIgnoreCase) == true) &&
-                (!since.HasValue || log.Timestamp >= since.Value) &&
-                (string.IsNullOrWhiteSpace(contains) ||
-                    log.Message.Contains(contains, StringComparison.OrdinalIgnoreCase) ||
-                    log.Context?.Any(kv => kv.Value?.ToString()?.Contains(contains, StringComparison.OrdinalIgnoreCase) == true) == true));
+            {
+                // Case-insensitive level match
+                var levelMatch = string.IsNullOrWhiteSpace(level)
+                    || log.Level?.Equals(level, StringComparison.OrdinalIgnoreCase) == true;
+
+                // Timestamp comparison
+                var sinceMatch = !since.HasValue
+                    || log.Timestamp >= since.Value;
+
+                // Message or context keyword search
+                var containsMatch = string.IsNullOrWhiteSpace(contains)
+                    || (log.Message?.Contains(contains, StringComparison.OrdinalIgnoreCase) == true)
+                    || (log.Context?.Any(kv => kv.Value?.ToString()?.Contains(contains, StringComparison.OrdinalIgnoreCase) == true) == true);
+
+                return levelMatch && sinceMatch && containsMatch;
+            });
         }
+
 
     }
 }
