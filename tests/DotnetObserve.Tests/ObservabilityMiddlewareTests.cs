@@ -6,23 +6,23 @@ using DotnetObserve.Middleware;
 public class ObservabilityMiddlewareTests
 {
     public class InMemoryStore<T> : IStore<T>
-{
-    private readonly List<T> _items = new();
-
-    public Task AppendAsync(T item)
     {
-        _items.Add(item);
-        return Task.CompletedTask;
-    }
+        private readonly List<T> _items = new();
 
-    public Task<IReadOnlyCollection<T>> ReadAllAsync()
-    {
-        IReadOnlyCollection<T> result = _items.AsReadOnly();
-        return Task.FromResult(result);
-    }
+        public Task AppendAsync(T item)
+        {
+            _items.Add(item);
+            return Task.CompletedTask;
+        }
 
-    public IReadOnlyList<T> Items => _items;
-}
+        public Task<IReadOnlyCollection<T>> ReadAllAsync()
+        {
+            IReadOnlyCollection<T> result = _items.AsReadOnly();
+            return Task.FromResult(result);
+        }
+
+        public IReadOnlyList<T> Items => _items;
+    }
 
     [Fact]
     public async Task Middleware_Logs_Info_For_Successful_Request()
