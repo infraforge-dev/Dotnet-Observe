@@ -1,4 +1,6 @@
-![Dotnet-Observe Banner](./assets/dotnet-observe-mod.png)
+<p align="center">
+  <img src="assets/dotnet-observe-mod.PNG" alt="Dotnet-Observe Banner" />
+</p>
 
 # Dotnet-Observe
 
