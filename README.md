@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/dotnet-observe-mod.PNG" alt="Dotnet-Observe Banner" />
+  <img src="assets/dotnet-observe-stacked-cropped.PNG" alt="Dotnet-Observe Banner" />
 </p>
 
 # Dotnet-Observe
