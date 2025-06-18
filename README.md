@@ -2,6 +2,10 @@
 
 **Plug-and-Play Observability Toolkit for .NET**
 
+[![Lint and Build](https://github.com/infraforge-dev/Dotnet-Observe/actions/workflows/ci.yml/badge.svg)](https://github.com/infraforge-dev/Dotnet-Observe/actions/workflows/ci.yml)
+![License](https://img.shields.io/github/license/infraforge-dev/Dotnet-Observe)
+![NuGet](https://img.shields.io/nuget/v/DotnetObserve?label=NuGet)
+
 ---
 
 ## Table of Contents
@@ -10,8 +14,8 @@
 2. [Features](#features)
 3. [Project Structure](#project-structure)
 4. [Quickstart](#quickstart)
-5. [Data Model Overview](#data-model-overview)
-6. [CLI Overview](#cli-overview)
+5. [CLI Overview](#cli-overview)
+6. [Data Model Overview](#data-model-overview)
 7. [MVP User Stories](#mvp-user-stories)
 8. [Roadmap](#roadmap)
 9. [Vision](#vision)
@@ -52,7 +56,32 @@
 
 ---
 
-## Quickstart (**Coming Soon**)
+      +-----------------------------+
+      |     Your .NET Application  |
+      |   (.NET 8/9 Web API, etc.) |
+      +-------------+-------------+
+                    |
+                    ▼
+    +------------------------------+
+    |  DotnetObserve Middleware    |
+    |  - Logs, Metrics, Traces     |
+    +------------------------------+
+                    |
+                    ▼
+    +------------------------------+
+    |      Storage Layer           |
+    |  (File, DB, future exporters)|
+    +------------------------------+
+                    |
+                    ▼
+    +------------------------------+
+    |      dotnet-observe CLI      |
+    |  - tail, filter, inspect     |
+    +------------------------------+
+
+---
+
+## Quickstart
 
 1. **Install the NuGet package**
 
@@ -70,7 +99,7 @@
     options.EnableTracing = true;
   });
  ```
- 3. Use the CLI to tail logs and view metrics
+ 3. **Use the CLI to tail logs and view metrics**
 
  ```sh
  dotnet-observe tail --level Error
@@ -79,34 +108,36 @@
  ```
 ---
 
-## CLI Usage
+## CLI Overview
 
-### Tail logs
-```bash
-dotnet-observe tail
-```
+### Tail
+Stream recent logs with filtering and formatting options.
 
-### Filter by level
+#### Options
+- `--take`, `-n` — Number of logs to display (default: 50)
+- `--level`, `-l` — Filter by log level (e.g., Info, Warn, Error)
+- `--since` — Only show logs after this UTC timestamp (`2025-06-17T00:00:00Z`)
+- `--json` — Output format: `pretty` (indented) or `compact` (single-line)
+
+#### Examples:
 ```bash
+# Show 100 recent logs regardless of level
+dotnet-observe tail --take 100
+
+# Show logs from the last hour
+dotnet-observe tail --since "2025-06-17T01:00:00Z"
+
+# Show only warnings and errors
+dotnet-observe tail --level Warn
 dotnet-observe tail --level Error
-```
 
-### Limit output
-```bash
-dotnet-observe tail --take 10
+# Combine filters: last 50 error logs since a date, in JSON
+dotnet-observe tail --level Error --since "2025-06-16T22:00:00Z" --take 50 --json pretty
 ```
-
-### JSON output
-You can show logs in raw JSON format:
-- Pretty-printed (indented):
-  
-  ```bash
-  dotnet-observe tail --json pretty
-  ```
-- Compact (one line):
-  ```bash
-  dotnet-observe tail --json compact
-  ```
+### Coming soon
+- `metrics`: Display and export performance metrics
+- `traces`: Search and display trace data by correlation or span
+- `config`: View and edit toolkit configuration
 ---
 
 
@@ -175,14 +206,6 @@ You can show logs in raw JSON format:
   ```
 ---
 
-## CLI Overview
-- `tail`: View and filter logs in real time with color highlighting
-- `metrics`: Display and export performance metrics
-- `traces`: Search and display trace data by correlation or span
-- `config`: View and edit toolkit configuration
-
----
-
 ## MVP User Stories
 - Add a NuGet package and enable middleware for instant logs, metrics, and traces
 - Auto log HTTP requests/responses with correlation IDs
@@ -198,9 +221,9 @@ You can show logs in raw JSON format:
 ## Roadmap
  - ~~Data models defined~~
  - ~~MVP user stories prioritized~~
- - CLI/wireframe designed
- - Core architecture mapped
- - Project setup & scaffolding
+ - ~~CLI/wireframe designed~~
+ - ~~Core architecture mapped~~
+ - ~~Project setup & scaffolding~~
  - CLI tool MVP
  - Storage layer (file/DB)
  - More exporters/integrations
@@ -209,8 +232,6 @@ You can show logs in raw JSON format:
 ---
 
 ## Vision
-
-Vision
 - Developer-first: Works instantly, grows with you.
 - Flagship quality: Robust, scalable, and beautiful CLI experience.
 - Open source: Contributions, ideas, and feedback welcome!
