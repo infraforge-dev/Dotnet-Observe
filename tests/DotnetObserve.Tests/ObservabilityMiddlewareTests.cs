@@ -2,6 +2,7 @@ using DotnetObserve.Core.Storage;
 using DotnetObserve.Core.Models;
 using Microsoft.AspNetCore.Http;
 using DotnetObserve.Middleware;
+using FluentAssertions; // ✅ Added for assertion chaining
 
 public class ObservabilityMiddlewareTests
 {
@@ -108,10 +109,11 @@ public class ObservabilityMiddlewareTests
         Assert.Equal("/fail", log.Context!["Path"]);
         Assert.Equal("GET", log.Context["Method"]);
 
-        // Enriched exception details
-        Assert.Equal("InvalidOperationException", log.Context["ExceptionType"]);
-        Assert.Contains("Something broke", log.Context["ExceptionMessage"]?.ToString());
-        Assert.NotNull(log.Context["StackTrace"]);
+        log.Exception.Should().NotBeNull();
+        log.Exception!.GetType().Name.Should().Be("InvalidOperationException");
+        log.Exception!.Message.Should().Contain("Something broke");
+
+        // If context still includes exception details (adjust as needed)
         Assert.NotNull(log.Context["ExceptionLocation"]);
     }
 }

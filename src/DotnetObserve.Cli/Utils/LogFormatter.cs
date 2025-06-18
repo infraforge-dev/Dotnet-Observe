@@ -16,7 +16,6 @@ public static class LogFormatter
     public static string Format(LogEntry log)
     {
         var color = LogLevelStyles.GetColor(log.Level);
-
         var emoji = log.Level switch
         {
             "Error" => "❌",
@@ -29,30 +28,40 @@ public static class LogFormatter
 
         var levelMarkup = $"[{color}]{log.Level}[/]";
         var timeStamp = $"[grey]{log.Timestamp:yyyy-MM-dd HH:mm:ss}[/]";
-        var message = $"{emoji}  [bold]{log.Message}[/]";
+        var message = log.Message;
+        var source = !string.IsNullOrWhiteSpace(log.Source) ? $" (Source: [teal]{log.Source}[/])" : "";
 
-        var output = $"\n {timeStamp} {levelMarkup} {message}";
+        var output = $"{emoji} {timeStamp} [{levelMarkup}] {message}{source}\n";
 
-        if (log.Context != null)
+        if (!string.IsNullOrWhiteSpace(log.CorrelationId))
+        {
+            output += $"  ↳ CorrelationId: [white]{log.CorrelationId}[/]\n";
+        }
+
+        if (log.Context is { Count: > 0 })
         {
             var path = log.Context.TryGetValue("Path", out var p) ? p?.ToString() : "N/A";
             var status = log.Context.TryGetValue("StatusCode", out var s) ? s?.ToString() : "N/A";
             var duration = log.Context.TryGetValue("DurationMs", out var d) ? d?.ToString() : "N/A";
 
-            output += $"\n [grey] ↳ Path:[/] {path} [grey]| Status:[/] {status} [grey]| Duration:[/] {duration}ms";
+            output += $"  ↳ Path: [white]{path}[/] | Status: [white]{status}[/] | Duration: [white]{duration}ms[/]\n";
+
+            foreach (var kvp in log.Context)
+            {
+                if (kvp.Key is "Path" or "StatusCode" or "DurationMs") continue;
+                output += $"  ↳ [silver]{kvp.Key}[/]: [white]{kvp.Value}[/]\n";
+            }
         }
 
-        if (log.Level == LogLevels.Error && log.Context is not null)
+        if (log.Exception is not null)
         {
-            if (log.Context.TryGetValue("ExceptionMessage", out var exMsg))
-                output += $"\n [red]🛑 Exception:[/] {exMsg}";
-
-            if (log.Context.TryGetValue("ExceptionLocation", out var location))
-                output += $"\n [grey] ↳ Location:[/] {location}";
+            output += $"  ⚠ [red]{log.Exception.GetType().Name}: {log.Exception.Message}[/]\n";
+            output += $"    [dim]{log.Exception.StackTrace?.Split('\n').FirstOrDefault()?.Trim() ?? "[no stack trace]"}[/]\n";
         }
 
-        return output;
+        return output.TrimEnd();
     }
+
 
     /// <summary>
     /// Formats a <see cref="LogEntry"/> into a plain text string without any markup, suitable for log files or non-ANSI environments.
@@ -66,15 +75,46 @@ public static class LogFormatter
 
         var output = $"[{timeStamp}] [{level}] {log.Message}";
 
-        if (log.Context != null)
+        if (!string.IsNullOrWhiteSpace(log.Source))
+        {
+            output += $" (Source: {log.Source})";
+        }
+
+        output += "\n";
+
+        // Add correlation ID if present
+        if (!string.IsNullOrWhiteSpace(log.CorrelationId))
+        {
+            output += $"  ↳ CorrelationId: {log.CorrelationId}\n";
+        }
+
+        // Add standard structured fields from Context
+        if (log.Context is { Count: > 0 })
         {
             var path = log.Context.TryGetValue("Path", out var p) ? p?.ToString() : "N/A";
             var status = log.Context.TryGetValue("StatusCode", out var s) ? s?.ToString() : "N/A";
             var duration = log.Context.TryGetValue("DurationMs", out var d) ? d?.ToString() : "N/A";
 
-            output += $"\n  ↳ Path: {path} | Status: {status} | Duration: {duration}ms\n";
+            output += $"  ↳ Path: {path} | Status: {status} | Duration: {duration}ms\n";
+
+            // Add any other fields in context not already handled
+            foreach (var kvp in log.Context)
+            {
+                if (kvp.Key is "Path" or "StatusCode" or "DurationMs")
+                    continue;
+
+                output += $"  ↳ {kvp.Key}: {kvp.Value}\n";
+            }
         }
 
-        return output;
+        // Add structured exception info
+        if (log.Exception is not null)
+        {
+            output += $"  ⚠ Exception: {log.Exception.GetType().Name}: {log.Exception.Message}\n";
+            output += $"    {log.Exception.StackTrace?.Split('\n').FirstOrDefault()?.Trim() ?? "[no stack trace]"}\n";
+        }
+
+        return output.TrimEnd();
     }
+
 }
