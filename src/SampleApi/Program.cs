@@ -11,9 +11,9 @@ builder.Services.AddSingleton<IStore<LogEntry>>(
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
-
 app.UseMiddleware<ObservabilityMiddleware>();
+
+app.MapGet("/", () => "Hello World!");
 
 app.MapGet("/hello", () => "Hello from SampleApi!");
 
