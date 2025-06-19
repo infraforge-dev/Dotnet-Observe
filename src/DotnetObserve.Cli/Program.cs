@@ -23,7 +23,6 @@ using System.Text.Json;
 
 // Determine log file path
 var logPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../SampleApi/logs.json"));
-AnsiConsole.MarkupLine($"[grey]Looking for logs at:[/] {logPath}");
 
 if (!File.Exists(logPath))
 {

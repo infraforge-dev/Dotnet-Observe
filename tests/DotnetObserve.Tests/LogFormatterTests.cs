@@ -1,7 +1,6 @@
 using DotnetObserve.Core.Models;
 using DotnetObserve.Cli.Utils;
 using FluentAssertions;
-using Xunit;
 
 namespace DotnetObserve.Cli.Tests;
 

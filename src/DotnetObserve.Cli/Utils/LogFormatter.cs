@@ -1,18 +1,12 @@
+using System.Text;
 using DotnetObserve.Core.Constants;
 using DotnetObserve.Core.Models;
+using Spectre.Console;
 
 namespace DotnetObserve.Cli.Utils;
 
-/// <summary>
-/// Provides methods for formatting <see cref="LogEntry"/> objects into human-readable output for CLI display.
-/// </summary>
 public static class LogFormatter
 {
-    /// <summary>
-    /// Formats a <see cref="LogEntry"/> using Spectre.Console markup with color-coded output and emoji indicators.
-    /// </summary>
-    /// <param name="log">The log entry to format.</param>
-    /// <returns>A formatted string with ANSI markup for CLI display.</returns>
     public static string Format(LogEntry log)
     {
         var color = LogLevelStyles.GetColor(log.Level);
@@ -26,48 +20,58 @@ public static class LogFormatter
             _ => ""
         };
 
-        var levelMarkup = $"[{color}]{log.Level}[/]";
-        var timeStamp = $"[grey]{log.Timestamp:yyyy-MM-dd HH:mm:ss}[/]";
-        var message = log.Message;
-        var source = !string.IsNullOrWhiteSpace(log.Source) ? $" (Source: [teal]{log.Source}[/])" : "";
+        var sb = new StringBuilder();
 
-        var output = $"{emoji} {timeStamp} [{levelMarkup}] {message}{source}\n";
+        var levelEscaped = Markup.Escape(log.Level ?? "");
+        var messageEscaped = Markup.Escape(log.Message ?? "");
+        var sourceEscaped = Markup.Escape(log.Source ?? "");
+
+        sb.Append($"{emoji} [grey]{log.Timestamp:yyyy-MM-dd HH:mm:ss}[/] ");
+        sb.Append($"[{color}]{levelEscaped}[/] ");
+        sb.Append($"{messageEscaped}");
+
+        if (!string.IsNullOrWhiteSpace(log.Source))
+        {
+            sb.Append($" (Source: [teal]{sourceEscaped}[/])");
+        }
+
+        sb.AppendLine();
 
         if (!string.IsNullOrWhiteSpace(log.CorrelationId))
         {
-            output += $"  ↳ CorrelationId: [white]{log.CorrelationId}[/]\n";
+            sb.AppendLine($"  ↳ CorrelationId: [white]{Markup.Escape(log.CorrelationId)}[/]");
         }
 
         if (log.Context is { Count: > 0 })
         {
-            var path = log.Context.TryGetValue("Path", out var p) ? p?.ToString() : "N/A";
-            var status = log.Context.TryGetValue("StatusCode", out var s) ? s?.ToString() : "N/A";
-            var duration = log.Context.TryGetValue("DurationMs", out var d) ? d?.ToString() : "N/A";
+            var path = Markup.Escape(log.Context.TryGetValue("Path", out var p) ? p?.ToString() ?? "N/A" : "N/A");
+            var status = Markup.Escape(log.Context.TryGetValue("StatusCode", out var s) ? s?.ToString() ?? "N/A" : "N/A");
+            var duration = Markup.Escape(log.Context.TryGetValue("DurationMs", out var d) ? d?.ToString() ?? "N/A" : "N/A");
 
-            output += $"  ↳ Path: [white]{path}[/] | Status: [white]{status}[/] | Duration: [white]{duration}ms[/]\n";
+            sb.AppendLine($"  ↳ Path: [white]{path}[/] | Status: [white]{status}[/] | Duration: [white]{duration}ms[/]");
 
             foreach (var kvp in log.Context)
             {
                 if (kvp.Key is "Path" or "StatusCode" or "DurationMs") continue;
-                output += $"  ↳ [silver]{kvp.Key}[/]: [white]{kvp.Value}[/]\n";
+
+                var k = Markup.Escape(kvp.Key ?? "");
+                var v = Markup.Escape(kvp.Value?.ToString() ?? "");
+                sb.AppendLine($"  ↳ [silver]{k}[/]: [white]{v}[/]");
             }
         }
 
         if (log.Exception is not null)
         {
-            output += $"  ⚠ [red]{log.Exception.GetType().Name}: {log.Exception.Message}[/]\n";
-            output += $"    [dim]{log.Exception.StackTrace?.Split('\n').FirstOrDefault()?.Trim() ?? "[no stack trace]"}[/]\n";
+            var exMessage = Markup.Escape(log.Exception.Message ?? "");
+            var exStack = Markup.Escape(log.Exception.StackTrace?.Split('\n').FirstOrDefault()?.Trim() ?? "[no stack trace]");
+
+            sb.AppendLine($"  ⚠ [red]{log.Exception.GetType().Name}: {exMessage}[/]");
+            sb.AppendLine($"    [dim]{exStack}[/]");
         }
 
-        return output.TrimEnd();
+        return sb.ToString().TrimEnd();
     }
 
-
-    /// <summary>
-    /// Formats a <see cref="LogEntry"/> into a plain text string without any markup, suitable for log files or non-ANSI environments.
-    /// </summary>
-    /// <param name="log">The log entry to format.</param>
-    /// <returns>A plain text string representation of the log entry.</returns>
     public static string FormatPlainText(LogEntry log)
     {
         var timeStamp = log.Timestamp.ToString("yyyy-MM-dd HH:mm:ss");
@@ -82,13 +86,11 @@ public static class LogFormatter
 
         output += "\n";
 
-        // Add correlation ID if present
         if (!string.IsNullOrWhiteSpace(log.CorrelationId))
         {
             output += $"  ↳ CorrelationId: {log.CorrelationId}\n";
         }
 
-        // Add standard structured fields from Context
         if (log.Context is { Count: > 0 })
         {
             var path = log.Context.TryGetValue("Path", out var p) ? p?.ToString() : "N/A";
@@ -97,7 +99,6 @@ public static class LogFormatter
 
             output += $"  ↳ Path: {path} | Status: {status} | Duration: {duration}ms\n";
 
-            // Add any other fields in context not already handled
             foreach (var kvp in log.Context)
             {
                 if (kvp.Key is "Path" or "StatusCode" or "DurationMs")
@@ -107,7 +108,6 @@ public static class LogFormatter
             }
         }
 
-        // Add structured exception info
         if (log.Exception is not null)
         {
             output += $"  ⚠ Exception: {log.Exception.GetType().Name}: {log.Exception.Message}\n";
@@ -116,5 +116,4 @@ public static class LogFormatter
 
         return output.TrimEnd();
     }
-
 }

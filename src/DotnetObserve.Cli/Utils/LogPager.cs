@@ -1,3 +1,4 @@
+using System.Text.Json;
 using DotnetObserve.Core.Models;
 using Spectre.Console;
 
@@ -26,7 +27,7 @@ public static class LogPager
 
             if (useJson)
             {
-                var json = System.Text.Json.JsonSerializer.Serialize(log, new System.Text.Json.JsonSerializerOptions
+                var json = JsonSerializer.Serialize(log, new JsonSerializerOptions
                 {
                     WriteIndented = isPretty
                 });
@@ -34,7 +35,15 @@ public static class LogPager
             }
             else if (AnsiConsole.Profile.Capabilities.Ansi)
             {
-                AnsiConsole.MarkupLine(LogFormatter.Format(log));
+                try
+                {
+                    AnsiConsole.MarkupLine(LogFormatter.Format(log));
+                }
+                catch (Exception ex)
+                {
+                    AnsiConsole.MarkupLine($"[red]❌ Markup error: {Markup.Escape(ex.Message)}[/]");
+                    AnsiConsole.WriteLine(LogFormatter.FormatPlainText(log));
+                }
             }
             else
             {

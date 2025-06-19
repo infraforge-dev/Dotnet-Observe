@@ -1,28 +1,20 @@
-using DotnetObserve.Core.Storage;
 using DotnetObserve.Core.Models;
 using Microsoft.AspNetCore.Http;
 using DotnetObserve.Middleware;
-using FluentAssertions; // ✅ Added for assertion chaining
+using FluentAssertions;
+using DotnetObserve.Core.Abstractions;
 
 public class ObservabilityMiddlewareTests
 {
-    public class InMemoryStore<T> : IStore<T>
+    public class InMemoryObservabilityLogger : IObservabilityLogger
     {
-        private readonly List<T> _items = new();
+        public List<LogEntry> Entries { get; } = new();
 
-        public Task AppendAsync(T item)
+        public Task LogAsync(LogEntry entry)
         {
-            _items.Add(item);
+            Entries.Add(entry);
             return Task.CompletedTask;
         }
-
-        public Task<IReadOnlyCollection<T>> ReadAllAsync()
-        {
-            IReadOnlyCollection<T> result = _items.AsReadOnly();
-            return Task.FromResult(result);
-        }
-
-        public IReadOnlyList<T> Items => _items;
     }
 
     [Fact]
@@ -33,7 +25,7 @@ public class ObservabilityMiddlewareTests
         context.Request.Method = "GET";
         context.Request.Path = "/test";
 
-        var store = new InMemoryStore<LogEntry>();
+        var logger = new InMemoryObservabilityLogger();
 
         RequestDelegate next = async (ctx) =>
         {
@@ -41,13 +33,13 @@ public class ObservabilityMiddlewareTests
             await ctx.Response.WriteAsync("OK");
         };
 
-        var middleware = new ObservabilityMiddleware(next, store);
+        var middleware = new ObservabilityMiddleware(next, logger);
 
         // Act
         await middleware.InvokeAsync(context);
 
         // Assert
-        var log = Assert.Single(store.Items);
+        var log = Assert.Single(logger.Entries);
         Assert.Equal("Info", log.Level);
         Assert.Equal("GET /test returned 200", log.Message);
         Assert.True(log.Context["StatusCode"] is int status && status == 200);
@@ -62,7 +54,7 @@ public class ObservabilityMiddlewareTests
         context.Request.Method = "GET";
         context.Request.Path = "/not-found";
 
-        var store = new InMemoryStore<LogEntry>();
+        var logger = new InMemoryObservabilityLogger();
 
         RequestDelegate next = async (ctx) =>
         {
@@ -70,13 +62,13 @@ public class ObservabilityMiddlewareTests
             await ctx.Response.WriteAsync("Not Found");
         };
 
-        var middleware = new ObservabilityMiddleware(next, store);
+        var middleware = new ObservabilityMiddleware(next, logger);
 
         // Act
         await middleware.InvokeAsync(context);
 
         // Assert
-        var log = Assert.Single(store.Items);
+        var log = Assert.Single(logger.Entries);
         Assert.Equal("Warning", log.Level);
         Assert.Equal("GET /not-found returned 404", log.Message);
         Assert.Equal(404, Convert.ToInt32(log.Context!["StatusCode"]));
@@ -91,19 +83,19 @@ public class ObservabilityMiddlewareTests
         context.Request.Method = "GET";
         context.Request.Path = "/fail";
 
-        var store = new InMemoryStore<LogEntry>();
+        var logger = new InMemoryObservabilityLogger();
 
         RequestDelegate next = (ctx) =>
         {
             throw new InvalidOperationException("Something broke");
         };
 
-        var middleware = new ObservabilityMiddleware(next, store);
+        var middleware = new ObservabilityMiddleware(next, logger);
 
         // Act & Assert
         var ex = await Assert.ThrowsAsync<InvalidOperationException>(() => middleware.InvokeAsync(context));
 
-        var log = Assert.Single(store.Items);
+        var log = Assert.Single(logger.Entries);
         Assert.Equal("Error", log.Level);
         Assert.Contains("Something broke", log.Message);
         Assert.Equal("/fail", log.Context!["Path"]);

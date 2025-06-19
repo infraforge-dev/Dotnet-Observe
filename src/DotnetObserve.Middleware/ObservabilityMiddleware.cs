@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using DotnetObserve.Core.Abstractions;
 using DotnetObserve.Core.Constants;
 using DotnetObserve.Core.Models;
 using DotnetObserve.Core.Storage;
@@ -13,12 +14,12 @@ namespace DotnetObserve.Middleware;
 public class ObservabilityMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly IStore<LogEntry> _logStore;
+    private readonly IObservabilityLogger _logger;
 
-    public ObservabilityMiddleware(RequestDelegate next, IStore<LogEntry> logStore)
+    public ObservabilityMiddleware(RequestDelegate next, IObservabilityLogger logger)
     {
         _next = next;
-        _logStore = logStore;
+        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -71,7 +72,7 @@ public class ObservabilityMiddleware
             entry.Context["Method"] = context.Request.Method;
             entry.Context["Path"] = context.Request.Path.ToUriComponent();
 
-            await _logStore.AppendAsync(entry);
+            await _logger.LogAsync(entry);
         }
     }
 }
