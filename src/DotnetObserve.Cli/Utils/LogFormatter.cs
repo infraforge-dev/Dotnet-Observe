@@ -7,7 +7,7 @@ namespace DotnetObserve.Cli.Utils;
 
 /// <summary>
 /// Provides methods to convert <see cref="LogEntry"/> objects into formatted strings
-/// for terminal display, either with Spectre.Console markup or plain text fallback.
+/// for terminal display with Spectre.Console markup.
 /// </summary>
 public static class LogFormatter
 {
@@ -18,144 +18,104 @@ public static class LogFormatter
     /// <returns>A markup-formatted string ready for Spectre.Console rendering.</returns>
     public static string Format(LogEntry log)
     {
-        // Map log level to color and emoji
+        var sb = new StringBuilder();
+
+        sb.AppendLine(FormatHeader(log));
+        sb.AppendLine(FormatMessage(log));
+
+        if (!string.IsNullOrWhiteSpace(log.Source))
+            sb.AppendLine(FormatSource(log));
+
+        if (!string.IsNullOrWhiteSpace(log.CorrelationId))
+            sb.AppendLine(FormatCorrelationId(log));
+
+        sb.AppendLine(FormatMetadata(log));
+
+        sb.AppendLine(FormatExceptionContext(log));
+
+        if (log.Exception is not null)
+            sb.AppendLine(FormatRawException(log));
+
+        sb.Append(FormatRemainingContext(log));
+
+        return sb.ToString().TrimEnd();
+    }
+
+    private static string FormatHeader(LogEntry log)
+    {
         var color = LogLevelStyles.GetColor(log.Level);
         var emoji = log.Level switch
         {
             "Error" => "❌",
-            "Warn" or "Warning" => "⚠️",
+            "Warning" or "Warn" => "⚠️",
             "Info" => "ℹ️",
             "Debug" => "🐛",
             "Trace" => "🔍",
             _ => ""
         };
 
-        var sb = new StringBuilder();
-
-        // Escape markup-sensitive strings to avoid rendering issues
         var levelEscaped = Markup.Escape(log.Level ?? "");
-        var messageEscaped = Markup.Escape(log.Message ?? "");
-        var sourceEscaped = Markup.Escape(log.Source ?? "");
+        return $"{emoji} [grey]{log.Timestamp:yyyy-MM-dd HH:mm:ss}[/] [{color}]{levelEscaped}[/]";
+    }
 
-        // Header: emoji + timestamp + log level
-        sb.AppendLine($"{emoji} [grey]{log.Timestamp:yyyy-MM-dd HH:mm:ss}[/] [{color}]{levelEscaped}[/]");
+    private static string FormatMessage(LogEntry log) =>
+        $"[bold green3_1]Message:[/] {Markup.Escape(log.Message ?? "")}";
 
-        // Log message
-        sb.AppendLine($"[bold green3_1]Message:[/] {messageEscaped}");
+    private static string FormatSource(LogEntry log) =>
+        $"[yellow2]Source:[/] [white]{Markup.Escape(log.Source ?? "")}[/]";
 
-        // Optional source field
-        if (!string.IsNullOrWhiteSpace(log.Source))
-        {
-            sb.AppendLine($"[yellow2]Source:[/] [white]{sourceEscaped}[/]");
-        }
+    private static string FormatCorrelationId(LogEntry log) =>
+        $"[cyan]CorrelationId:[/] [white]{Markup.Escape(log.CorrelationId ?? "")}[/]";
 
-        // Optional correlation ID
-        if (!string.IsNullOrWhiteSpace(log.CorrelationId))
-        {
-            sb.AppendLine($"[cyan]CorrelationId:[/] [white]{Markup.Escape(log.CorrelationId)}[/]");
-        }
+    private static string FormatMetadata(LogEntry log)
+    {
+        var ctx = log.Context ?? new();
+        var path = Markup.Escape(ctx.TryGetValue("Path", out var p) ? p?.ToString() ?? "N/A" : "N/A");
+        var status = Markup.Escape(ctx.TryGetValue("StatusCode", out var s) ? s?.ToString() ?? "N/A" : "N/A");
+        var duration = Markup.Escape(ctx.TryGetValue("DurationMs", out var d) ? d?.ToString() ?? "N/A" : "N/A");
 
-        // Request metadata: Path, StatusCode, DurationMs
-        if (log.Context is { Count: > 0 })
-        {
-            var path = Markup.Escape(log.Context.TryGetValue("Path", out var p) ? p?.ToString() ?? "N/A" : "N/A");
-            var status = Markup.Escape(log.Context.TryGetValue("StatusCode", out var s) ? s?.ToString() ?? "N/A" : "N/A");
-            var duration = Markup.Escape(log.Context.TryGetValue("DurationMs", out var d) ? d?.ToString() ?? "N/A" : "N/A");
+        return $"[green]Path:[/] [white]{path}[/] | [green]Status:[/] [white]{status}[/] | [green]Duration:[/] [white]{duration}ms[/]";
+    }
 
-            sb.AppendLine($"[green]Path:[/] [white]{path}[/] | [green]Status:[/] [white]{status}[/] | [green]Duration:[/] [white]{duration}ms[/]");
-        }
+    private static string FormatExceptionContext(LogEntry log)
+    {
+        var sb = new StringBuilder();
+        var ctx = log.Context ?? new();
 
-        // Special styling for ExceptionType and ExceptionLocation (if present in context)
-        if (log.Context?.TryGetValue("ExceptionType", out var exType) == true)
-        {
-            var typeText = Markup.Escape(exType?.ToString() ?? "");
-            sb.AppendLine($"[red]ExceptionType:[/] [white]{typeText}[/]");
-        }
+        if (ctx.TryGetValue("ExceptionType", out var exType))
+            sb.AppendLine($"[red]ExceptionType:[/] [white]{Markup.Escape(exType?.ToString() ?? "")}[/]");
 
-        if (log.Context?.TryGetValue("ExceptionLocation", out var exLoc) == true)
-        {
-            var locText = Markup.Escape(exLoc?.ToString() ?? "");
-            sb.AppendLine($"[dim]ExceptionLocation:[/] [white]{locText}[/]");
-        }
+        if (ctx.TryGetValue("ExceptionLocation", out var exLoc))
+            sb.AppendLine($"[dim]ExceptionLocation:[/] [white]{Markup.Escape(exLoc?.ToString() ?? "")}[/]");
 
-        // Render all remaining context values not already handled
+        return sb.ToString();
+    }
+
+    private static string FormatRawException(LogEntry log)
+    {
+        var ex = log.Exception!;
+        var exMessage = Markup.Escape(ex.Message ?? "");
+        var exStack = Markup.Escape(ex.StackTrace?.Split('\n').FirstOrDefault()?.Trim() ?? "[no stack trace]");
+
+        return $"[red]ExceptionType:[/] [white]{ex.GetType().Name}[/] - [white]{exMessage}[/]\n[dim]ExceptionLocation:[/] [white]{exStack}[/]";
+    }
+
+    private static string FormatRemainingContext(LogEntry log)
+    {
+        var sb = new StringBuilder();
+        var knownKeys = new HashSet<string> { "Path", "StatusCode", "DurationMs", "ExceptionType", "ExceptionLocation" };
+
         foreach (var kvp in log.Context ?? Enumerable.Empty<KeyValuePair<string, object?>>())
         {
-            if (kvp.Key is "Path" or "StatusCode" or "DurationMs" or "ExceptionType" or "ExceptionLocation")
-                continue;
+            if (knownKeys.Contains(kvp.Key ?? "")) continue;
 
             var k = Markup.Escape(kvp.Key ?? "");
             var v = Markup.Escape(kvp.Value?.ToString() ?? "");
             sb.AppendLine($"  [silver]{k}:[/] [white]{v}[/]");
         }
 
-        // Fallback for unhandled Exception object (non-context-based)
-        if (log.Exception is not null)
-        {
-            var exMessage = Markup.Escape(log.Exception.Message ?? "");
-            var exStack = Markup.Escape(log.Exception.StackTrace?.Split('\n').FirstOrDefault()?.Trim() ?? "[no stack trace]");
-
-            sb.AppendLine($"[red]ExceptionType:[/] [white]{log.Exception.GetType().Name}[/] - [white]{exMessage}[/]");
-            sb.AppendLine($"[dim]ExceptionLocation:[/] [white]{exStack}[/]");
-        }
-
-        return sb.ToString().TrimEnd();
+        return sb.ToString();
     }
 
-    /// <summary>
-    /// Formats a <see cref="LogEntry"/> as plain text for non-color terminals or log file output.
-    /// </summary>
-    /// <param name="log">The log entry to format.</param>
-    /// <returns>A simple, human-readable string representation of the log.</returns>
-    public static string FormatPlainText(LogEntry log)
-    {
-        // Timestamp and uppercase log level
-        var timeStamp = log.Timestamp.ToString("yyyy-MM-dd HH:mm:ss");
-        var level = log.Level?.ToUpperInvariant() ?? "INFO";
 
-        // Start with main log line
-        var output = $"[{timeStamp}] [{level}] {log.Message}";
-
-        // Optional source
-        if (!string.IsNullOrWhiteSpace(log.Source))
-        {
-            output += $" (Source: {log.Source})";
-        }
-
-        output += "\n";
-
-        // Optional correlation ID
-        if (!string.IsNullOrWhiteSpace(log.CorrelationId))
-        {
-            output += $"  ↳ CorrelationId: {log.CorrelationId}\n";
-        }
-
-        // Structured context metadata
-        if (log.Context is { Count: > 0 })
-        {
-            var path = log.Context.TryGetValue("Path", out var p) ? p?.ToString() : "N/A";
-            var status = log.Context.TryGetValue("StatusCode", out var s) ? s?.ToString() : "N/A";
-            var duration = log.Context.TryGetValue("DurationMs", out var d) ? d?.ToString() : "N/A";
-
-            output += $"  ↳ Path: {path} | Status: {status} | Duration: {duration}ms\n";
-
-            // Remaining context values
-            foreach (var kvp in log.Context)
-            {
-                if (kvp.Key is "Path" or "StatusCode" or "DurationMs")
-                    continue;
-
-                output += $"  ↳ {kvp.Key}: {kvp.Value}\n";
-            }
-        }
-
-        // Append exception details if present
-        if (log.Exception is not null)
-        {
-            output += $"  ⚠ Exception: {log.Exception.GetType().Name}: {log.Exception.Message}\n";
-            output += $"    {log.Exception.StackTrace?.Split('\n').FirstOrDefault()?.Trim() ?? "[no stack trace]"}\n";
-        }
-
-        return output.TrimEnd();
-    }
 }

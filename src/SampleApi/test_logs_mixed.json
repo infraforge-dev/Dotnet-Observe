@@ -1,0 +1,1540 @@
+[
+  {
+    "id": "b8c1930e-e245-4300-9ce2-9f154424ba8b",
+    "timestamp": "2025-06-20T15:56:18.715770Z",
+    "level": "Warning",
+    "message": "POST /users returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "b5d0be58a6b84aaa8213d0604176f4be",
+    "context": {
+      "DurationMs": 161,
+      "StatusCode": 404,
+      "Method": "POST",
+      "Path": "/users"
+    }
+  },
+  {
+    "id": "8642a093-0dc5-4dc9-b2ec-15733219ce11",
+    "timestamp": "2025-06-20T15:56:18.716518Z",
+    "level": "Warning",
+    "message": "POST /items returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "c7ce4992c73940c08ffccda22246a0f6",
+    "context": {
+      "DurationMs": 63,
+      "StatusCode": 400,
+      "Method": "POST",
+      "Path": "/items"
+    }
+  },
+  {
+    "id": "092f4a97-0ef2-4017-b318-69977350c3a9",
+    "timestamp": "2025-06-20T15:56:18.716629Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "0620f2f20147467899dd6a3baa508096",
+    "context": {
+      "DurationMs": 27,
+      "StatusCode": 500,
+      "Method": "PUT",
+      "Path": "/throw",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "409bdba9-5301-4b09-9868-7fba650a99a1",
+    "timestamp": "2025-06-20T15:56:18.716856Z",
+    "level": "Info",
+    "message": "POST /api/data returned 200",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "aa9fffceab9843b7be898dd8d3a2a45b",
+    "context": {
+      "DurationMs": 17,
+      "StatusCode": 200,
+      "Method": "POST",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "1a6673c3-ad57-491a-bb41-020445d3e275",
+    "timestamp": "2025-06-20T15:56:18.717267Z",
+    "level": "Warning",
+    "message": "PUT /api/data returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "4423ac0fde21450cb239689334eabc5f",
+    "context": {
+      "DurationMs": 161,
+      "StatusCode": 400,
+      "Method": "PUT",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "a4d721e4-fe96-430c-b85c-5895c35739ef",
+    "timestamp": "2025-06-20T15:56:18.717372Z",
+    "level": "Warning",
+    "message": "PUT /throw returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "51fd85f236094b44babfba4cd080fe2c",
+    "context": {
+      "DurationMs": 66,
+      "StatusCode": 400,
+      "Method": "PUT",
+      "Path": "/throw"
+    }
+  },
+  {
+    "id": "5b65b4e0-df47-40db-8d67-f6693d13533a",
+    "timestamp": "2025-06-20T15:56:18.717397Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "1e4bc83718ea4810afb3b24b29d2d345",
+    "context": {
+      "DurationMs": 142,
+      "StatusCode": 502,
+      "Method": "POST",
+      "Path": "/users",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "c15c32fd-aa9b-47a3-ae5a-e8af3f2262dc",
+    "timestamp": "2025-06-20T15:56:18.717445Z",
+    "level": "Warning",
+    "message": "POST /items returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "6292492f1bf4426d859a8c7a70b4706f",
+    "context": {
+      "DurationMs": 176,
+      "StatusCode": 404,
+      "Method": "POST",
+      "Path": "/items"
+    }
+  },
+  {
+    "id": "18987ac5-465b-43d6-afa7-b893e9966022",
+    "timestamp": "2025-06-20T15:56:18.717661Z",
+    "level": "Warning",
+    "message": "GET /items returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "39763d7b3a004619a2d40b2e2596c6df",
+    "context": {
+      "DurationMs": 157,
+      "StatusCode": 404,
+      "Method": "GET",
+      "Path": "/items"
+    }
+  },
+  {
+    "id": "d00d99b3-dd98-474b-aad8-b66effa7d3ab",
+    "timestamp": "2025-06-20T15:56:18.717712Z",
+    "level": "Info",
+    "message": "POST /api/data returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "61fb313cf3b9475496e9909874170791",
+    "context": {
+      "DurationMs": 195,
+      "StatusCode": 201,
+      "Method": "POST",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "81651611-2712-4ff7-9db3-50f8794aa4d3",
+    "timestamp": "2025-06-20T15:56:18.717740Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "96dd4a093c844f61977c18e7af2c9fa3",
+    "context": {
+      "DurationMs": 108,
+      "StatusCode": 500,
+      "Method": "POST",
+      "Path": "/api/data",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "21fd099e-bb7b-4dfa-ae05-75487f42a784",
+    "timestamp": "2025-06-20T15:56:18.717767Z",
+    "level": "Warning",
+    "message": "PUT /items returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "c589b4e3c8f6435c9cef1b74884bd9b1",
+    "context": {
+      "DurationMs": 185,
+      "StatusCode": 404,
+      "Method": "PUT",
+      "Path": "/items"
+    }
+  },
+  {
+    "id": "c6c9a146-d9af-4e76-aac4-d315a535ce62",
+    "timestamp": "2025-06-20T15:56:18.717794Z",
+    "level": "Warning",
+    "message": "DELETE /api/data returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "d41ea508995e491b9069b1d3725f8597",
+    "context": {
+      "DurationMs": 165,
+      "StatusCode": 400,
+      "Method": "DELETE",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "76353fd0-922b-4526-a64e-1ceb811315f1",
+    "timestamp": "2025-06-20T15:56:18.717820Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "fde9206c7ea04e8aa03e49819dbc2429",
+    "context": {
+      "DurationMs": 0,
+      "StatusCode": 502,
+      "Method": "PUT",
+      "Path": "/api/data",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "cfa8738d-e1a6-48d2-98cf-74129a521e91",
+    "timestamp": "2025-06-20T15:56:18.717842Z",
+    "level": "Warning",
+    "message": "PUT /users returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "a377776af6af46489af68e5dcddb3211",
+    "context": {
+      "DurationMs": 93,
+      "StatusCode": 400,
+      "Method": "PUT",
+      "Path": "/users"
+    }
+  },
+  {
+    "id": "27f368a5-efb4-4c9f-8fa0-87f0dd579a6f",
+    "timestamp": "2025-06-20T15:56:18.717870Z",
+    "level": "Info",
+    "message": "PUT /users returned 200",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "f4d1b5d971ca4102800584745b6b7073",
+    "context": {
+      "DurationMs": 39,
+      "StatusCode": 200,
+      "Method": "PUT",
+      "Path": "/users"
+    }
+  },
+  {
+    "id": "20626656-b23d-4cc6-93fe-5738991fd9a1",
+    "timestamp": "2025-06-20T15:56:18.717897Z",
+    "level": "Warning",
+    "message": "PUT /api/data returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "c34330b1fde34f6883722c291bb00379",
+    "context": {
+      "DurationMs": 57,
+      "StatusCode": 404,
+      "Method": "PUT",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "02f9b1d6-39da-45ec-9a71-b29c15726799",
+    "timestamp": "2025-06-20T15:56:18.717936Z",
+    "level": "Info",
+    "message": "DELETE /api/data returned 200",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "98b7a27f96ec4b5fb1451d25cbd79e51",
+    "context": {
+      "DurationMs": 196,
+      "StatusCode": 200,
+      "Method": "DELETE",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "1f4a1fa8-3d4a-4e0d-9035-5fcdd5185427",
+    "timestamp": "2025-06-20T15:56:18.717965Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "0ee806225cbe467389b72c24fcdc0167",
+    "context": {
+      "DurationMs": 161,
+      "StatusCode": 502,
+      "Method": "DELETE",
+      "Path": "/throw",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "b5299f2d-9242-4399-bd5f-2fcd11093403",
+    "timestamp": "2025-06-20T15:56:18.717986Z",
+    "level": "Info",
+    "message": "PUT /throw returned 200",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "d638ab0f26e0475fb1daec0fa60f12a2",
+    "context": {
+      "DurationMs": 22,
+      "StatusCode": 200,
+      "Method": "PUT",
+      "Path": "/throw"
+    }
+  },
+  {
+    "id": "9ca832d8-9f32-421b-87a5-6e013d486194",
+    "timestamp": "2025-06-20T15:56:18.718013Z",
+    "level": "Warning",
+    "message": "POST /hello returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "c3b1c14da99e4459a34756b556d3c2c6",
+    "context": {
+      "DurationMs": 5,
+      "StatusCode": 400,
+      "Method": "POST",
+      "Path": "/hello"
+    }
+  },
+  {
+    "id": "ac5f6b3b-8019-4df8-bbf2-0fdbcb76b9a4",
+    "timestamp": "2025-06-20T15:56:18.718041Z",
+    "level": "Info",
+    "message": "DELETE /api/data returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "344ddf7ed7c3475d8c125f558f01ae71",
+    "context": {
+      "DurationMs": 98,
+      "StatusCode": 201,
+      "Method": "DELETE",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "45548bb9-e78a-4d5c-a52b-5bc85f13f439",
+    "timestamp": "2025-06-20T15:56:18.718069Z",
+    "level": "Warning",
+    "message": "PUT /users returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "4d2b266e68144ef3a467a95098be5f73",
+    "context": {
+      "DurationMs": 153,
+      "StatusCode": 404,
+      "Method": "PUT",
+      "Path": "/users"
+    }
+  },
+  {
+    "id": "919cbc7e-4f35-4aac-89e5-cf14fd6fee06",
+    "timestamp": "2025-06-20T15:56:18.718122Z",
+    "level": "Warning",
+    "message": "DELETE /api/data returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "80b0508d612e4135a9a8ddb8e4989655",
+    "context": {
+      "DurationMs": 54,
+      "StatusCode": 400,
+      "Method": "DELETE",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "a216b797-4abe-4f0a-83cf-b0b35e69d26d",
+    "timestamp": "2025-06-20T15:56:18.718192Z",
+    "level": "Info",
+    "message": "GET /items returned 200",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "ea4ad61dff1c4b688a7754f6f1420e56",
+    "context": {
+      "DurationMs": 186,
+      "StatusCode": 200,
+      "Method": "GET",
+      "Path": "/items"
+    }
+  },
+  {
+    "id": "6c025d11-eef9-4e32-924a-a7d19a8f8e64",
+    "timestamp": "2025-06-20T15:56:18.718257Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "51a23546771e4352a4f46a507f274815",
+    "context": {
+      "DurationMs": 42,
+      "StatusCode": 500,
+      "Method": "DELETE",
+      "Path": "/users",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "38f9b39f-6732-4b03-b8d4-15ff1d192320",
+    "timestamp": "2025-06-20T15:56:18.718287Z",
+    "level": "Warning",
+    "message": "POST /throw returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "6538bb1d6ebd4421b5dbb5e051db790c",
+    "context": {
+      "DurationMs": 110,
+      "StatusCode": 400,
+      "Method": "POST",
+      "Path": "/throw"
+    }
+  },
+  {
+    "id": "db8b51b9-c78f-44cf-9d9a-46bd35e27689",
+    "timestamp": "2025-06-20T15:56:18.718345Z",
+    "level": "Info",
+    "message": "GET /api/data returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "5d071f2d8bbd4cefac848f4e3442a015",
+    "context": {
+      "DurationMs": 143,
+      "StatusCode": 201,
+      "Method": "GET",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "872a99f9-ecaa-422a-b468-6a3ff4c3363e",
+    "timestamp": "2025-06-20T15:56:18.718601Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "749a9029906d48b59a03c9fa836b5765",
+    "context": {
+      "DurationMs": 167,
+      "StatusCode": 500,
+      "Method": "GET",
+      "Path": "/api/data",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "cd23f92c-b990-4dbe-8710-6a31d2cf736f",
+    "timestamp": "2025-06-20T15:56:18.718655Z",
+    "level": "Info",
+    "message": "DELETE /throw returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "7f0b4735200547689bf7f0a630a47db2",
+    "context": {
+      "DurationMs": 87,
+      "StatusCode": 201,
+      "Method": "DELETE",
+      "Path": "/throw"
+    }
+  },
+  {
+    "id": "10e28d43-e69a-4782-a0f7-24189d21ff3d",
+    "timestamp": "2025-06-20T15:56:18.718685Z",
+    "level": "Warning",
+    "message": "DELETE /hello returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "8c12c4c13fa042f18631fd7e15fbed41",
+    "context": {
+      "DurationMs": 167,
+      "StatusCode": 404,
+      "Method": "DELETE",
+      "Path": "/hello"
+    }
+  },
+  {
+    "id": "a7627205-3e2c-47e8-befc-382582cfaf21",
+    "timestamp": "2025-06-20T15:56:18.718714Z",
+    "level": "Warning",
+    "message": "PUT /api/data returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "9eccb38beb334dcda94480bafcd1a242",
+    "context": {
+      "DurationMs": 63,
+      "StatusCode": 400,
+      "Method": "PUT",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "0dc23f06-96ef-4a3d-b79d-88802de99553",
+    "timestamp": "2025-06-20T15:56:18.718743Z",
+    "level": "Warning",
+    "message": "DELETE /hello returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "549db8aa42be43a9b917b808dac437fa",
+    "context": {
+      "DurationMs": 114,
+      "StatusCode": 404,
+      "Method": "DELETE",
+      "Path": "/hello"
+    }
+  },
+  {
+    "id": "468e7163-4158-4ce0-90f3-45baeadb027d",
+    "timestamp": "2025-06-20T15:56:18.718772Z",
+    "level": "Info",
+    "message": "DELETE /throw returned 200",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "ae0a05918d4c4723ab1bd2cd320bade7",
+    "context": {
+      "DurationMs": 45,
+      "StatusCode": 200,
+      "Method": "DELETE",
+      "Path": "/throw"
+    }
+  },
+  {
+    "id": "51d79ed7-4d55-456f-9706-d46686ba3fb7",
+    "timestamp": "2025-06-20T15:56:18.718800Z",
+    "level": "Info",
+    "message": "GET /throw returned 200",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "ae2e834c81fe4c6388ba0af942881879",
+    "context": {
+      "DurationMs": 14,
+      "StatusCode": 200,
+      "Method": "GET",
+      "Path": "/throw"
+    }
+  },
+  {
+    "id": "9c54f25e-7a23-4a79-af5f-dd47bc1e9eab",
+    "timestamp": "2025-06-20T15:56:18.718829Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "7b7ce664740d4442a3606aac90cb1aaf",
+    "context": {
+      "DurationMs": 11,
+      "StatusCode": 502,
+      "Method": "PUT",
+      "Path": "/items",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "4afaa54c-fef7-442f-816d-29d08e35dd54",
+    "timestamp": "2025-06-20T15:56:18.718865Z",
+    "level": "Info",
+    "message": "GET /items returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "973ea794c9634682884cc48aad0045b0",
+    "context": {
+      "DurationMs": 108,
+      "StatusCode": 201,
+      "Method": "GET",
+      "Path": "/items"
+    }
+  },
+  {
+    "id": "e73aece3-fd34-48ba-aa2a-8da768713728",
+    "timestamp": "2025-06-20T15:56:18.718907Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "ce84d59ec1c64379bdabf458e2e478ed",
+    "context": {
+      "DurationMs": 138,
+      "StatusCode": 500,
+      "Method": "POST",
+      "Path": "/items",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "fe358585-24f3-4b0b-9ff4-fcebd79d5d4d",
+    "timestamp": "2025-06-20T15:56:18.719245Z",
+    "level": "Info",
+    "message": "PUT /users returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "1d666d7e968c4f22883248ec05ab239b",
+    "context": {
+      "DurationMs": 98,
+      "StatusCode": 201,
+      "Method": "PUT",
+      "Path": "/users"
+    }
+  },
+  {
+    "id": "32e2f930-e8ee-48bd-a0c8-23c99c1c20c0",
+    "timestamp": "2025-06-20T15:56:18.719299Z",
+    "level": "Warning",
+    "message": "POST /users returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "afeba008ea8a429a94add3791347cdbd",
+    "context": {
+      "DurationMs": 89,
+      "StatusCode": 400,
+      "Method": "POST",
+      "Path": "/users"
+    }
+  },
+  {
+    "id": "75a3d401-f4e0-440d-b731-408ac493ee2a",
+    "timestamp": "2025-06-20T15:56:18.719330Z",
+    "level": "Warning",
+    "message": "GET /throw returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "8f918637cc02446a8a2d0c9abb2a2036",
+    "context": {
+      "DurationMs": 146,
+      "StatusCode": 404,
+      "Method": "GET",
+      "Path": "/throw"
+    }
+  },
+  {
+    "id": "d3ada987-0285-4f5f-8339-881ba5782004",
+    "timestamp": "2025-06-20T15:56:18.719376Z",
+    "level": "Warning",
+    "message": "PUT /api/data returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "250ef5fc670c43a8b92052bbe3f80e45",
+    "context": {
+      "DurationMs": 185,
+      "StatusCode": 404,
+      "Method": "PUT",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "2bb2e1d1-c17f-43c8-a70f-fa3775c72fd8",
+    "timestamp": "2025-06-20T15:56:18.719420Z",
+    "level": "Info",
+    "message": "PUT /items returned 200",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "6e2748f743434f05b02736acc5d8c42d",
+    "context": {
+      "DurationMs": 141,
+      "StatusCode": 200,
+      "Method": "PUT",
+      "Path": "/items"
+    }
+  },
+  {
+    "id": "994218de-b5ad-43de-8043-f5a5e25cf01b",
+    "timestamp": "2025-06-20T15:56:18.719451Z",
+    "level": "Warning",
+    "message": "GET /hello returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "36c6803270fa47c390cd039ea6afbbb8",
+    "context": {
+      "DurationMs": 32,
+      "StatusCode": 400,
+      "Method": "GET",
+      "Path": "/hello"
+    }
+  },
+  {
+    "id": "c3007c69-4b4a-4839-b31f-8d4cf6d234f8",
+    "timestamp": "2025-06-20T15:56:18.719480Z",
+    "level": "Info",
+    "message": "DELETE /api/data returned 200",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "c8cf1bb7298f4973b496baf7cff5bd4a",
+    "context": {
+      "DurationMs": 28,
+      "StatusCode": 200,
+      "Method": "DELETE",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "873be79a-4419-430c-803f-717df6ff657e",
+    "timestamp": "2025-06-20T15:56:18.719513Z",
+    "level": "Warning",
+    "message": "PUT /items returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "7f349e7acf4146faad590f284035553f",
+    "context": {
+      "DurationMs": 9,
+      "StatusCode": 404,
+      "Method": "PUT",
+      "Path": "/items"
+    }
+  },
+  {
+    "id": "35dcda92-99b8-44ec-a918-482e58973e67",
+    "timestamp": "2025-06-20T15:56:18.719542Z",
+    "level": "Info",
+    "message": "DELETE /items returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "7b939fd70c3549a4925c9dda7ded0133",
+    "context": {
+      "DurationMs": 130,
+      "StatusCode": 201,
+      "Method": "DELETE",
+      "Path": "/items"
+    }
+  },
+  {
+    "id": "673d8a7d-fda8-44a1-923f-3fecb5833b96",
+    "timestamp": "2025-06-20T15:56:18.719570Z",
+    "level": "Warning",
+    "message": "GET /items returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "0fa1131dd93245c0b4d26a866822f435",
+    "context": {
+      "DurationMs": 24,
+      "StatusCode": 404,
+      "Method": "GET",
+      "Path": "/items"
+    }
+  },
+  {
+    "id": "4ebbfefc-4cd8-4dc3-ad75-a82202630fe3",
+    "timestamp": "2025-06-20T15:56:18.719602Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "7274c9aead444e2383d49a3fd6a72389",
+    "context": {
+      "DurationMs": 73,
+      "StatusCode": 500,
+      "Method": "POST",
+      "Path": "/api/data",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "0cbce7f1-c567-4937-81e2-ea97978e6ba0",
+    "timestamp": "2025-06-20T15:56:18.719722Z",
+    "level": "Warning",
+    "message": "DELETE /hello returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "29ac922b4f44445ba5e60843f894d8a8",
+    "context": {
+      "DurationMs": 186,
+      "StatusCode": 400,
+      "Method": "DELETE",
+      "Path": "/hello"
+    }
+  },
+  {
+    "id": "fa1d4e79-2ba7-4e41-9ad9-2616b2b9ac19",
+    "timestamp": "2025-06-20T15:56:18.719808Z",
+    "level": "Info",
+    "message": "GET /hello returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "c169ead8bcde4028bd7b9ca059dae09a",
+    "context": {
+      "DurationMs": 126,
+      "StatusCode": 201,
+      "Method": "GET",
+      "Path": "/hello"
+    }
+  },
+  {
+    "id": "56dddbe2-ccfd-4beb-b978-12e119dbde76",
+    "timestamp": "2025-06-20T15:56:18.719842Z",
+    "level": "Info",
+    "message": "PUT /throw returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "db25208bb2c74d7e8ddc333b17d55d90",
+    "context": {
+      "DurationMs": 59,
+      "StatusCode": 201,
+      "Method": "PUT",
+      "Path": "/throw"
+    }
+  },
+  {
+    "id": "6194828f-3874-4144-8a35-c03a97d7776d",
+    "timestamp": "2025-06-20T15:56:18.719879Z",
+    "level": "Info",
+    "message": "GET /items returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "69c8a661554b48b98bdfb3a65a4b94c8",
+    "context": {
+      "DurationMs": 70,
+      "StatusCode": 201,
+      "Method": "GET",
+      "Path": "/items"
+    }
+  },
+  {
+    "id": "d740229d-ce67-441a-87ca-b5cc14e3b0d6",
+    "timestamp": "2025-06-20T15:56:18.719911Z",
+    "level": "Warning",
+    "message": "PUT /throw returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "fc3963fa0d914183af442a121e9ad88b",
+    "context": {
+      "DurationMs": 199,
+      "StatusCode": 400,
+      "Method": "PUT",
+      "Path": "/throw"
+    }
+  },
+  {
+    "id": "7e185c6e-7ad8-4054-af74-23e8bc7e11c9",
+    "timestamp": "2025-06-20T15:56:18.719939Z",
+    "level": "Warning",
+    "message": "POST /users returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "7c149482491042c694a156d9b71ba0d5",
+    "context": {
+      "DurationMs": 169,
+      "StatusCode": 404,
+      "Method": "POST",
+      "Path": "/users"
+    }
+  },
+  {
+    "id": "1ff93600-6a4f-4618-ae2d-3af10a66ab46",
+    "timestamp": "2025-06-20T15:56:18.719967Z",
+    "level": "Warning",
+    "message": "DELETE /hello returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "550c34ec7790400ea2148be77cdd5aae",
+    "context": {
+      "DurationMs": 194,
+      "StatusCode": 400,
+      "Method": "DELETE",
+      "Path": "/hello"
+    }
+  },
+  {
+    "id": "eedc9691-180c-42dd-b1cb-b389201c14e8",
+    "timestamp": "2025-06-20T15:56:18.720000Z",
+    "level": "Warning",
+    "message": "POST /api/data returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "61986a87413d40c0918fa688599b60de",
+    "context": {
+      "DurationMs": 117,
+      "StatusCode": 400,
+      "Method": "POST",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "f2142575-bb66-4cc5-9104-95271475e2a1",
+    "timestamp": "2025-06-20T15:56:18.720030Z",
+    "level": "Info",
+    "message": "PUT /throw returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "07bab0b7ab76450c943120a3be55f1b8",
+    "context": {
+      "DurationMs": 76,
+      "StatusCode": 201,
+      "Method": "PUT",
+      "Path": "/throw"
+    }
+  },
+  {
+    "id": "d9c8d28a-2a01-4dc7-8812-22eae419d195",
+    "timestamp": "2025-06-20T15:56:18.720060Z",
+    "level": "Warning",
+    "message": "POST /users returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "8e0e564017f94fbb8961665a3f45935f",
+    "context": {
+      "DurationMs": 25,
+      "StatusCode": 400,
+      "Method": "POST",
+      "Path": "/users"
+    }
+  },
+  {
+    "id": "7594735d-bd40-429d-bc00-311d8602d32e",
+    "timestamp": "2025-06-20T15:56:18.720089Z",
+    "level": "Info",
+    "message": "GET /items returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "db291d93737c4e3f8e97d8a7ad7ad613",
+    "context": {
+      "DurationMs": 132,
+      "StatusCode": 201,
+      "Method": "GET",
+      "Path": "/items"
+    }
+  },
+  {
+    "id": "af85c53e-8b5a-4970-ae3d-a7c14b2b9bee",
+    "timestamp": "2025-06-20T15:56:18.720129Z",
+    "level": "Warning",
+    "message": "DELETE /throw returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "b8646832bab34ceeb4b1abd9044f49d9",
+    "context": {
+      "DurationMs": 120,
+      "StatusCode": 400,
+      "Method": "DELETE",
+      "Path": "/throw"
+    }
+  },
+  {
+    "id": "7d8b5b98-0825-48ef-8fbf-98eed8cf959f",
+    "timestamp": "2025-06-20T15:56:18.720159Z",
+    "level": "Warning",
+    "message": "DELETE /api/data returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "becec500ae764c38830300eea48d1215",
+    "context": {
+      "DurationMs": 106,
+      "StatusCode": 400,
+      "Method": "DELETE",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "f0df0828-4c3d-45a3-8d99-25689f83f92b",
+    "timestamp": "2025-06-20T15:56:18.720202Z",
+    "level": "Warning",
+    "message": "POST /hello returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "36b215924cbc46d1934b243012b85e83",
+    "context": {
+      "DurationMs": 111,
+      "StatusCode": 404,
+      "Method": "POST",
+      "Path": "/hello"
+    }
+  },
+  {
+    "id": "5c14473c-dc13-402d-b220-f4b4b428a4f8",
+    "timestamp": "2025-06-20T15:56:18.720235Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "a5208c66eb4c427db4eba274db5582e6",
+    "context": {
+      "DurationMs": 93,
+      "StatusCode": 502,
+      "Method": "POST",
+      "Path": "/throw",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "566b8112-18cc-4838-b75e-abfded5c7fb1",
+    "timestamp": "2025-06-20T15:56:18.720272Z",
+    "level": "Info",
+    "message": "PUT /users returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "88452fb696d846ef922fc32313834aed",
+    "context": {
+      "DurationMs": 189,
+      "StatusCode": 201,
+      "Method": "PUT",
+      "Path": "/users"
+    }
+  },
+  {
+    "id": "9256c175-bdb4-48d8-897e-ca7e01407547",
+    "timestamp": "2025-06-20T15:56:18.720302Z",
+    "level": "Warning",
+    "message": "POST /users returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "66b9e522698a4f449ee764b0dd9436e9",
+    "context": {
+      "DurationMs": 173,
+      "StatusCode": 404,
+      "Method": "POST",
+      "Path": "/users"
+    }
+  },
+  {
+    "id": "9ffc3e9e-173c-408c-a38f-0aa576506428",
+    "timestamp": "2025-06-20T15:56:18.720331Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "6d02f4728c1f4f418699ea5ab45e2bb3",
+    "context": {
+      "DurationMs": 147,
+      "StatusCode": 500,
+      "Method": "GET",
+      "Path": "/api/data",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "660bff69-ef3b-4267-b335-b26f6f134c43",
+    "timestamp": "2025-06-20T15:56:18.720383Z",
+    "level": "Warning",
+    "message": "DELETE /api/data returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "03a33358046840d8b1077e87c7b01be8",
+    "context": {
+      "DurationMs": 146,
+      "StatusCode": 404,
+      "Method": "DELETE",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "f3b55c64-a59d-45db-989b-b0379285afa2",
+    "timestamp": "2025-06-20T15:56:18.720412Z",
+    "level": "Info",
+    "message": "GET /items returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "a0a375ed03e84151a7ab946b766ef56c",
+    "context": {
+      "DurationMs": 102,
+      "StatusCode": 201,
+      "Method": "GET",
+      "Path": "/items"
+    }
+  },
+  {
+    "id": "81884ddb-1273-4169-b7d8-af023a46b9f2",
+    "timestamp": "2025-06-20T15:56:18.720439Z",
+    "level": "Warning",
+    "message": "DELETE /api/data returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "ccaf1d9a3c244ad0a315d79869ee7731",
+    "context": {
+      "DurationMs": 55,
+      "StatusCode": 400,
+      "Method": "DELETE",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "572b529e-c291-45a4-973d-5037bf4067dc",
+    "timestamp": "2025-06-20T15:56:18.720468Z",
+    "level": "Warning",
+    "message": "GET /users returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "46be9482c8d14328a0526f2bf1163c5d",
+    "context": {
+      "DurationMs": 152,
+      "StatusCode": 404,
+      "Method": "GET",
+      "Path": "/users"
+    }
+  },
+  {
+    "id": "71b88371-4353-4e5e-9a1f-89af02d67693",
+    "timestamp": "2025-06-20T15:56:18.720496Z",
+    "level": "Warning",
+    "message": "GET /hello returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "035e518f00e64bdbae53abf97e8edd92",
+    "context": {
+      "DurationMs": 176,
+      "StatusCode": 404,
+      "Method": "GET",
+      "Path": "/hello"
+    }
+  },
+  {
+    "id": "a32bf7c6-b905-4733-bd29-391b44371351",
+    "timestamp": "2025-06-20T15:56:18.720526Z",
+    "level": "Info",
+    "message": "GET /users returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "34f4e3212dc2488db5a941108a80f2ea",
+    "context": {
+      "DurationMs": 172,
+      "StatusCode": 201,
+      "Method": "GET",
+      "Path": "/users"
+    }
+  },
+  {
+    "id": "47bcd11c-2c27-42a1-9053-64f1db3a998b",
+    "timestamp": "2025-06-20T15:56:18.720555Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "a3daa6dfc10440ca95e2802b5849f2bf",
+    "context": {
+      "DurationMs": 14,
+      "StatusCode": 500,
+      "Method": "POST",
+      "Path": "/users",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "19d4d683-9396-47c1-a853-60f1f70e9ccc",
+    "timestamp": "2025-06-20T15:56:18.720587Z",
+    "level": "Warning",
+    "message": "POST /api/data returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "b416deb64dec4b21b22c34367b6d6126",
+    "context": {
+      "DurationMs": 60,
+      "StatusCode": 404,
+      "Method": "POST",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "502ebf3a-d8e7-465e-8465-5ce06007d372",
+    "timestamp": "2025-06-20T15:56:18.720616Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "bf77f3e126e6409cb1c1791ea0643096",
+    "context": {
+      "DurationMs": 73,
+      "StatusCode": 502,
+      "Method": "GET",
+      "Path": "/items",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "900895bc-6954-45b4-ad16-ee71b1ebe901",
+    "timestamp": "2025-06-20T15:56:18.720687Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "6781cd48b7854b97ab6e505cf7844e12",
+    "context": {
+      "DurationMs": 58,
+      "StatusCode": 502,
+      "Method": "POST",
+      "Path": "/hello",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "6b771b67-84e0-471a-a53c-664b3c6204d4",
+    "timestamp": "2025-06-20T15:56:18.720717Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "69e6f667a179493e92b3d3c950b7e1ce",
+    "context": {
+      "DurationMs": 147,
+      "StatusCode": 500,
+      "Method": "POST",
+      "Path": "/hello",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "51be011d-068b-4918-8960-038417f0e21c",
+    "timestamp": "2025-06-20T15:56:18.720758Z",
+    "level": "Info",
+    "message": "POST /users returned 200",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "6859bba55bd14284b3200d19941ecc1c",
+    "context": {
+      "DurationMs": 15,
+      "StatusCode": 200,
+      "Method": "POST",
+      "Path": "/users"
+    }
+  },
+  {
+    "id": "0aed8a48-2569-4699-9a41-4b704e674bd0",
+    "timestamp": "2025-06-20T15:56:18.720923Z",
+    "level": "Info",
+    "message": "PUT /items returned 200",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "99b107a5bc384a95b5ce3773f6498c52",
+    "context": {
+      "DurationMs": 43,
+      "StatusCode": 200,
+      "Method": "PUT",
+      "Path": "/items"
+    }
+  },
+  {
+    "id": "5821cf15-69b6-4588-bec0-7715b2b21102",
+    "timestamp": "2025-06-20T15:56:18.720993Z",
+    "level": "Info",
+    "message": "PUT /api/data returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "7e1cc20e2723463f88b53f2b8bc6f226",
+    "context": {
+      "DurationMs": 60,
+      "StatusCode": 201,
+      "Method": "PUT",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "4f38750e-0d8d-41e4-9130-1c9c9dd2db72",
+    "timestamp": "2025-06-20T15:56:18.721013Z",
+    "level": "Warning",
+    "message": "DELETE /items returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "fac98a3794a145df86dced98b43f93b1",
+    "context": {
+      "DurationMs": 124,
+      "StatusCode": 404,
+      "Method": "DELETE",
+      "Path": "/items"
+    }
+  },
+  {
+    "id": "464d0213-0f03-46d1-90c6-70a5b5ace1f6",
+    "timestamp": "2025-06-20T15:56:18.721031Z",
+    "level": "Info",
+    "message": "GET /items returned 200",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "6297e69b41204059989f5d135952b0e2",
+    "context": {
+      "DurationMs": 156,
+      "StatusCode": 200,
+      "Method": "GET",
+      "Path": "/items"
+    }
+  },
+  {
+    "id": "f735e7ca-95f4-48cc-b13a-1c3b93062a8c",
+    "timestamp": "2025-06-20T15:56:18.721066Z",
+    "level": "Info",
+    "message": "PUT /hello returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "d6008ffb89ba492192e8989623192d7b",
+    "context": {
+      "DurationMs": 139,
+      "StatusCode": 201,
+      "Method": "PUT",
+      "Path": "/hello"
+    }
+  },
+  {
+    "id": "0e9d3fe0-ee30-4cc1-8c55-50a932867438",
+    "timestamp": "2025-06-20T15:56:18.721084Z",
+    "level": "Info",
+    "message": "PUT /throw returned 200",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "9795f922b2b64b2e8279690d9d9092b4",
+    "context": {
+      "DurationMs": 154,
+      "StatusCode": 200,
+      "Method": "PUT",
+      "Path": "/throw"
+    }
+  },
+  {
+    "id": "a6952a1b-b88c-4c87-bb91-6a4c63a89a34",
+    "timestamp": "2025-06-20T15:56:18.721104Z",
+    "level": "Warning",
+    "message": "GET /hello returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "330f955e21c64a358f50bd9160fd5b29",
+    "context": {
+      "DurationMs": 81,
+      "StatusCode": 400,
+      "Method": "GET",
+      "Path": "/hello"
+    }
+  },
+  {
+    "id": "29a6227e-4d78-4c06-80a4-9d1b107ce556",
+    "timestamp": "2025-06-20T15:56:18.721122Z",
+    "level": "Warning",
+    "message": "PUT /hello returned 404",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "dbff8cdda2b44e13aeb54a4fa4319c6f",
+    "context": {
+      "DurationMs": 71,
+      "StatusCode": 404,
+      "Method": "PUT",
+      "Path": "/hello"
+    }
+  },
+  {
+    "id": "b11838bc-41bb-400a-8118-431da9d5fa17",
+    "timestamp": "2025-06-20T15:56:18.721139Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "a28c39fe11d943bf83960b755f24c7dd",
+    "context": {
+      "DurationMs": 80,
+      "StatusCode": 502,
+      "Method": "DELETE",
+      "Path": "/users",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "5be46049-4ee6-4b30-bc05-8091ebdca603",
+    "timestamp": "2025-06-20T15:56:18.721160Z",
+    "level": "Info",
+    "message": "DELETE /api/data returned 200",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "018f21425b5b42de81d072dabe6761b8",
+    "context": {
+      "DurationMs": 66,
+      "StatusCode": 200,
+      "Method": "DELETE",
+      "Path": "/api/data"
+    }
+  },
+  {
+    "id": "a11b6757-2346-4477-a0d5-83d9c97b6067",
+    "timestamp": "2025-06-20T15:56:18.721187Z",
+    "level": "Info",
+    "message": "POST /users returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "46b62de0f11944b09e434b676cc585df",
+    "context": {
+      "DurationMs": 116,
+      "StatusCode": 201,
+      "Method": "POST",
+      "Path": "/users"
+    }
+  },
+  {
+    "id": "a918c70c-69d5-42c2-98b4-65bd57b0a947",
+    "timestamp": "2025-06-20T15:56:18.721212Z",
+    "level": "Info",
+    "message": "GET /hello returned 201",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "ff41c57828ba416c9fb344a5f9fe5f53",
+    "context": {
+      "DurationMs": 75,
+      "StatusCode": 201,
+      "Method": "GET",
+      "Path": "/hello"
+    }
+  },
+  {
+    "id": "1143c937-2df7-49c7-9e6e-5142851cfa84",
+    "timestamp": "2025-06-20T15:56:18.721237Z",
+    "level": "Warning",
+    "message": "GET /users returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "aa47f98cdf344ac48ecc6c61d6ff28c0",
+    "context": {
+      "DurationMs": 192,
+      "StatusCode": 400,
+      "Method": "GET",
+      "Path": "/users"
+    }
+  },
+  {
+    "id": "8a16a105-31d3-4bbf-bf18-197007c5b21b",
+    "timestamp": "2025-06-20T15:56:18.721256Z",
+    "level": "Warning",
+    "message": "DELETE /users returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "fcb88e4bcdaf444c8bdb5f9f6a5451cf",
+    "context": {
+      "DurationMs": 56,
+      "StatusCode": 400,
+      "Method": "DELETE",
+      "Path": "/users"
+    }
+  },
+  {
+    "id": "c4493055-79c2-49c5-a4ea-de0c99badc38",
+    "timestamp": "2025-06-20T15:56:18.721275Z",
+    "level": "Warning",
+    "message": "DELETE /hello returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "152882e8688f4085944c6151e01a4111",
+    "context": {
+      "DurationMs": 168,
+      "StatusCode": 400,
+      "Method": "DELETE",
+      "Path": "/hello"
+    }
+  },
+  {
+    "id": "b603b390-00d6-4f1d-9d2e-4d4e0d2e9c72",
+    "timestamp": "2025-06-20T15:56:18.721293Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "798085a6de3343daaef6710274b87711",
+    "context": {
+      "DurationMs": 33,
+      "StatusCode": 502,
+      "Method": "POST",
+      "Path": "/hello",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "e38af2c3-621c-4a6f-9bd3-13a9c7e76df0",
+    "timestamp": "2025-06-20T15:56:18.721312Z",
+    "level": "Info",
+    "message": "PUT /users returned 200",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "5fc272d18c154a80b94718f585d549b8",
+    "context": {
+      "DurationMs": 144,
+      "StatusCode": 200,
+      "Method": "PUT",
+      "Path": "/users"
+    }
+  },
+  {
+    "id": "09fa6204-17c8-47f0-bfa5-2fc8988fa4f0",
+    "timestamp": "2025-06-20T15:56:18.721330Z",
+    "level": "Warning",
+    "message": "GET /items returned 400",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "34094bb226d2416a9bbad3d2eb5891f1",
+    "context": {
+      "DurationMs": 52,
+      "StatusCode": 400,
+      "Method": "GET",
+      "Path": "/items"
+    }
+  },
+  {
+    "id": "d41b1e3f-bd13-42ea-a63a-cedde841a5d6",
+    "timestamp": "2025-06-20T15:56:18.721351Z",
+    "level": "Info",
+    "message": "GET /users returned 200",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "44fac78128764743b3f9f734719fe94f",
+    "context": {
+      "DurationMs": 132,
+      "StatusCode": 200,
+      "Method": "GET",
+      "Path": "/users"
+    }
+  },
+  {
+    "id": "c2bb07c3-04b6-4743-8265-c10e9faae86a",
+    "timestamp": "2025-06-20T15:56:18.721382Z",
+    "level": "Error",
+    "message": "Exception thrown",
+    "source": "SampleApi",
+    "ExceptionMessage": "An error occurred",
+    "correlationId": "055935622b8f40eba4b9881cbc0ca970",
+    "context": {
+      "DurationMs": 149,
+      "StatusCode": 502,
+      "Method": "POST",
+      "Path": "/throw",
+      "ExceptionType": "InvalidOperationException",
+      "ExceptionLocation": "at /src/SampleApi/Controller.cs:line 42"
+    }
+  },
+  {
+    "id": "45c992f0-216b-4f1d-9ef8-95ff10df70b6",
+    "timestamp": "2025-06-20T15:56:18.721405Z",
+    "level": "Info",
+    "message": "DELETE /api/data returned 200",
+    "source": "SampleApi",
+    "ExceptionMessage": null,
+    "correlationId": "bb0b168d97ac47d694c866d7ccde0f4a",
+    "context": {
+      "DurationMs": 190,
+      "StatusCode": 200,
+      "Method": "DELETE",
+      "Path": "/api/data"
+    }
+  }
+]

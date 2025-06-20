@@ -29,9 +29,14 @@ namespace DotnetObserve.Cli.Utils
                 var sinceMatch = !since.HasValue
                     || log.Timestamp >= since.Value;
 
-                var containsMatch = string.IsNullOrWhiteSpace(contains)
-                    || (log.Message?.Contains(contains, StringComparison.OrdinalIgnoreCase) == true)
-                    || (log.Context?.Any(kv => kv.Value?.ToString()?.Contains(contains, StringComparison.OrdinalIgnoreCase) == true) == true);
+                var term = contains?.Trim('"');
+
+                var containsMatch = string.IsNullOrWhiteSpace(term)
+                    || (log.Message?.IndexOf(term, StringComparison.OrdinalIgnoreCase) >= 0)
+                    || (log.Exception?.Message?.IndexOf(term, StringComparison.OrdinalIgnoreCase) >= 0)
+                    || (log.Source?.IndexOf(term, StringComparison.OrdinalIgnoreCase) >= 0)
+                    || (log.CorrelationId?.IndexOf(term, StringComparison.OrdinalIgnoreCase) >= 0)
+                    || (log.Context?.Any(kv => kv.Value?.ToString()?.IndexOf(term, StringComparison.OrdinalIgnoreCase) >= 0) == true);
 
                 return levelMatch && sinceMatch && containsMatch;
             });

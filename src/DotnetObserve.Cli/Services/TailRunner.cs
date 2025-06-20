@@ -1,7 +1,9 @@
 using DotnetObserve.Core.Models;
 using DotnetObserve.Core.Storage;
-using DotnetObserve.Cli.Utils;
 using Spectre.Console;
+using DotnetObserve.Cli.Rendering;
+using DotnetObserve.Cli.Utils;
+using LogPager = DotnetObserve.Cli.Paging.LogPager;
 
 namespace DotnetObserve.Cli.Commands
 {
@@ -19,9 +21,9 @@ namespace DotnetObserve.Cli.Commands
         /// <param name="json">Output format: 'pretty' or 'compact'.</param>
         /// <param name="since">Only include logs after this timestamp.</param>
         /// <param name="contains">Filter logs containing this keyword.</param>
-        public static async Task Execute(int? take, string level, string json, DateTimeOffset? since, string contains, int pageSize)
+        public static async Task Execute(int take, string level, string json, DateTimeOffset? since, string contains, int pageSize, string? format)
         {
-            var logPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../SampleApi/logs.json"));
+            var logPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../SampleApi/test_logs_mixed.json"));
             if (!File.Exists(logPath))
             {
                 AnsiConsole.MarkupLine("[red]❌ Log file not found![/]");
@@ -33,7 +35,7 @@ namespace DotnetObserve.Cli.Commands
 
             logs = LogFilter.Apply(logs, level, since, contains)
                 .OrderByDescending(log => log.Timestamp)
-                .Take(take ?? 50)
+                .Take(take)
                 .ToList();
 
             if (logs.Count == 0)
@@ -42,7 +44,8 @@ namespace DotnetObserve.Cli.Commands
                 return;
             }
 
-            LogPager.Display(logs, pageSize, jsonMode: json);
+            ILogRenderer renderer = RendererFactory.Create(json, format);
+            LogPager.Display(logs, pageSize, renderer);
         }
     }
 }
