@@ -23,9 +23,9 @@ namespace DotnetObserve.Cli.Utils
                     AnsiConsole.MarkupLine(line.TrimEnd());
                 }
 
-                AnsiConsole.WriteLine(); 
+                AnsiConsole.WriteLine();
                 AnsiConsole.Write(new Rule().RuleStyle("grey"));
-                AnsiConsole.WriteLine(); 
+                AnsiConsole.WriteLine();
             }
             catch (Exception ex)
             {
