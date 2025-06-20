@@ -15,7 +15,7 @@ public static class LogPager
     /// <param name="logs">The logs to display.</param>
     /// <param name="pageSize">Page size to show at once. If 0, displays all logs without paging.</param>
     /// <param name="jsonMode">Optional: 'pretty' or 'compact' JSON formatting.</param>
-    public static void Display(IEnumerable<LogEntry> logs, int pageSize = 0, string? jsonMode = null)
+    public static void Display(IEnumerable<LogEntry> logs, int pageSize, string? jsonMode = null)
     {
         var logList = logs.ToList();
         bool useJson = !string.IsNullOrWhiteSpace(jsonMode);
@@ -31,18 +31,55 @@ public static class LogPager
                 {
                     WriteIndented = isPretty
                 });
-                Console.WriteLine(json);
+
+                if (isPretty && AnsiConsole.Profile.Capabilities.Ansi)
+                {
+                    // Pretty-print with colorized keys and values
+                    var lines = json.Split('\n');
+
+                    // Precompute max key length for alignment
+                    int maxKeyLength = lines
+                        .Select(l => l.IndexOf(':'))
+                        .Where(i => i > 0)
+                        .DefaultIfEmpty(0)
+                        .Max();
+
+                    foreach (var line in lines)
+                    {
+                        var idx = line.IndexOf(':');
+                        if (idx > 0)
+                        {
+                            var rawKey = line.Substring(0, idx).TrimEnd();
+                            var rawValue = line.Substring(idx + 1);
+
+                            var paddedKey = rawKey.PadRight(maxKeyLength);
+                            var escapedKey = Markup.Escape(paddedKey);
+                            var escapedVal = Markup.Escape(rawValue);
+
+                            AnsiConsole.MarkupLine($"[grey]{escapedKey}[/]:[white]{escapedVal}[/]");
+                        }
+                        else
+                        {
+                            AnsiConsole.MarkupLine(Markup.Escape(line));
+                        }
+                    }
+                }
+                else
+                {
+                    // Compact or plain JSON
+                    Console.WriteLine(json);
+                }
             }
             else if (AnsiConsole.Profile.Capabilities.Ansi)
             {
                 try
                 {
-                    AnsiConsole.MarkupLine(LogFormatter.Format(log));
+                    LogPrinter.Print(log);
                 }
                 catch (Exception ex)
                 {
                     AnsiConsole.MarkupLine($"[red]❌ Markup error: {Markup.Escape(ex.Message)}[/]");
-                    AnsiConsole.WriteLine(LogFormatter.FormatPlainText(log));
+                    Console.WriteLine(LogFormatter.FormatPlainText(log));
                 }
             }
             else
@@ -50,10 +87,20 @@ public static class LogPager
                 Console.WriteLine(LogFormatter.FormatPlainText(log));
             }
 
-            if (pageSize > 0 && (i + 1) % pageSize == 0 && i + 1 < logList.Count)
+            // Handle paging
+            if (pageSize > 0 && (i + 1) % pageSize == 0)
             {
-                Console.WriteLine("\n-- Press any key to continue --");
-                Console.ReadKey(true);
+                if (i + 1 < logList.Count)
+                {
+                    AnsiConsole.WriteLine();
+                    AnsiConsole.MarkupLine("[grey]-- Press any key to continue --[/]");
+                    Console.ReadKey(true);
+                }
+                else
+                {
+                    AnsiConsole.WriteLine();
+                    AnsiConsole.MarkupLine("[grey](End of logs)[/]");
+                }
             }
         }
     }

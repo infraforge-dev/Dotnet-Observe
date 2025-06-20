@@ -14,118 +14,124 @@
 /// </remarks>
 
 using System.CommandLine;
-using DotnetObserve.Core.Models;
-using DotnetObserve.Core.Storage;
-using DotnetObserve.Core.Constants;
-using DotnetObserve.Cli.Utils;
-using Spectre.Console;
-using System.Text.Json;
+using DotnetObserve.Cli.Commands;
 
-// Determine log file path
-var logPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../SampleApi/logs.json"));
+var rootCommand = new RootCommand("dotnet-observe CLI");
 
-if (!File.Exists(logPath))
-{
-    AnsiConsole.MarkupLine("[red]❌ Log file not found![/]");
-    return 1;
-}
+rootCommand.AddCommand(TailCommandBuilder.Build());
 
-var logStore = new JsonFileStore<LogEntry>(logPath);
-
-/// <summary>
-/// Defines the 'tail' command used to stream and filter recent log entries.
-/// </summary>
-var tailCommand = new Command("tail", "Tail and display recent log entries");
-
-// Define CLI options
-var takeOption = new Option<int?>(
-    aliases: new[] { "--take", "-n" },
-    description: "How many log entries to show",
-    getDefaultValue: () => 50
-);
-
-var levelOption = new Option<string>(
-    aliases: new[] { "--level", "-l" },
-    description: "Filter by log level (e.g., Info, Warn, Error)"
-);
-
-var jsonOption = new Option<string>(
-    name: "--json",
-    description: "Output log entries in JSON format. Options: 'pretty' or 'compact'"
-);
-
-var sinceOption = new Option<DateTimeOffset?>(
-    name: "--since",
-    description: "Only include logs after this UTC timestamp (e.g. 2025-06-17T08:00:00Z)"
-);
-
-var containsOption = new Option<string>(
-    name: "--contains",
-    description: "Only show logs that contain this keyword in message or context"
-);
-
-var pageSizeOption = new Option<int?>(
-    name: "--page-size",
-    description: "Page through logs X at a time (press key to continue)",
-    getDefaultValue: () => 0
-);
-
-// Attach options to command
-tailCommand.AddOption(takeOption);
-tailCommand.AddOption(levelOption);
-tailCommand.AddOption(jsonOption);
-tailCommand.AddOption(sinceOption);
-tailCommand.AddOption(containsOption);
-tailCommand.AddOption(pageSizeOption);
-
-/// <summary>
-/// Main handler for the 'tail' command. Applies filters and outputs logs using
-/// Spectre.Console or JSON formatting.
-/// </summary>
-tailCommand.SetHandler(async (take, level, jsonMode, since, contains, pageSize) =>
-
-{
-    var logs = await logStore.ReadAllAsync();
-
-    if (!string.IsNullOrWhiteSpace(level))
-    {
-        level = level.Trim();
-        if (!LogLevels.All.Contains(level, StringComparer.OrdinalIgnoreCase))
-        {
-            AnsiConsole.MarkupLine($"[red]❌ Invalid log level:[/] {level}");
-            AnsiConsole.MarkupLine($"[grey]Valid levels:[/] {string.Join(", ", LogLevels.All)}");
-            return;
-        }
-
-        level = LogLevels.All.First(l => l.Equals(level, StringComparison.OrdinalIgnoreCase));
-    }
-
-
-    var isPretty = string.Equals(jsonMode, "pretty", StringComparison.OrdinalIgnoreCase);
-    var isCompact = string.Equals(jsonMode, "compact", StringComparison.OrdinalIgnoreCase);
-
-    if (!string.IsNullOrWhiteSpace(jsonMode) && !isPretty && !isCompact)
-    {
-        AnsiConsole.MarkupLine("[red]❌ Invalid --json mode. Use 'pretty' or 'compact'.[/]");
-        return;
-    }
-
-    var filtered = LogFilter
-        .Apply(
-            logs.OrderByDescending(e => e.Timestamp),
-            level,
-            since,
-            contains
-        )
-        .Take(take ?? 50);
-
-    LogPager.Display(filtered, pageSize ?? 0, jsonMode);
-
-}, takeOption, levelOption, jsonOption, sinceOption, containsOption, pageSizeOption);
-
-// Register root command
-var rootCommand = new RootCommand("dotnet-observe CLI tool");
-rootCommand.AddCommand(tailCommand);
-
-// Execute
 return await rootCommand.InvokeAsync(args);
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+// // Determine log file path
+// var logPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../SampleApi/logs.json"));
+
+// if (!File.Exists(logPath))
+// {
+//     AnsiConsole.MarkupLine("[red]❌ Log file not found![/]");
+//     return 1;
+// }
+
+// var logStore = new JsonFileStore<LogEntry>(logPath);
+
+// /// <summary>
+// /// Defines the 'tail' command used to stream and filter recent log entries.
+// /// </summary>
+// var tailCommand = new Command("tail", "Tail and display recent log entries");
+
+// // Define CLI options
+// var takeOption = new Option<int?>(
+//     aliases: new[] { "--take", "-n" },
+//     description: "How many log entries to show",
+//     getDefaultValue: () => 50
+// );
+
+// var levelOption = new Option<string>(
+//     aliases: new[] { "--level", "-l" },
+//     description: "Filter by log level (e.g., Info, Warn, Error)"
+// );
+
+// var jsonOption = new Option<string>(
+//     name: "--json",
+//     description: "Output log entries in JSON format. Options: 'pretty' or 'compact'"
+// );
+
+// var sinceOption = new Option<DateTimeOffset?>(
+//     name: "--since",
+//     description: "Only include logs after this UTC timestamp (e.g. 2025-06-17T08:00:00Z)"
+// );
+
+// var containsOption = new Option<string>(
+//     name: "--contains",
+//     description: "Only show logs that contain this keyword in message or context"
+// );
+
+// var pageSizeOption = new Option<int?>(
+//     name: "--page-size",
+//     description: "Page through logs X at a time (press key to continue)",
+//     getDefaultValue: () => 0
+// );
+
+// // Attach options to command
+// tailCommand.AddOption(takeOption);
+// tailCommand.AddOption(levelOption);
+// tailCommand.AddOption(jsonOption);
+// tailCommand.AddOption(sinceOption);
+// tailCommand.AddOption(containsOption);
+// tailCommand.AddOption(pageSizeOption);
+
+// /// <summary>
+// /// Main handler for the 'tail' command. Applies filters and outputs logs using
+// /// Spectre.Console or JSON formatting.
+// /// </summary>
+// tailCommand.SetHandler(async (take, level, jsonMode, since, contains, pageSize) =>
+
+// {
+//     var logs = await logStore.ReadAllAsync();
+
+//     if (!string.IsNullOrWhiteSpace(level))
+//     {
+//         level = level.Trim();
+//         if (!LogLevels.All.Contains(level, StringComparer.OrdinalIgnoreCase))
+//         {
+//             AnsiConsole.MarkupLine($"[red]❌ Invalid log level:[/] {level}");
+//             AnsiConsole.MarkupLine($"[grey]Valid levels:[/] {string.Join(", ", LogLevels.All)}");
+//             return;
+//         }
+
+//         level = LogLevels.All.First(l => l.Equals(level, StringComparison.OrdinalIgnoreCase));
+//     }
+
+
+//     var isPretty = string.Equals(jsonMode, "pretty", StringComparison.OrdinalIgnoreCase);
+//     var isCompact = string.Equals(jsonMode, "compact", StringComparison.OrdinalIgnoreCase);
+
+//     if (!string.IsNullOrWhiteSpace(jsonMode) && !isPretty && !isCompact)
+//     {
+//         AnsiConsole.MarkupLine("[red]❌ Invalid --json mode. Use 'pretty' or 'compact'.[/]");
+//         return;
+//     }
+
+//     var filtered = LogFilter
+//         .Apply(
+//             logs.OrderByDescending(e => e.Timestamp),
+//             level,
+//             since,
+//             contains
+//         )
+//         .Take(take ?? 50);
+
+//     LogPager.Display(filtered, pageSize ?? 0, jsonMode);
+
+// }, takeOption, levelOption, jsonOption, sinceOption, containsOption, pageSizeOption);
+
+// // Register root command
+// var rootCommand = new RootCommand("dotnet-observe CLI tool");
+// rootCommand.AddCommand(tailCommand);
+
+// // Execute
+// return await rootCommand.InvokeAsync(args);

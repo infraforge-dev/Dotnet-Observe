@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using DotnetObserve.Core.Abstractions;
 using DotnetObserve.Core.Constants;
 using DotnetObserve.Core.Models;
@@ -26,6 +27,7 @@ public class ObservabilityMiddleware
     {
         var entry = new LogEntry
         {
+            Timestamp = DateTime.UtcNow,
             Source = "SampleApi",
             CorrelationId = Activity.Current?.TraceId.ToString()
         };
@@ -57,7 +59,7 @@ public class ObservabilityMiddleware
             entry.Context = new Dictionary<string, object?>
             {
                 ["ExceptionType"] = ex.GetType().Name,
-                ["ExceptionLocation"] = ex.StackTrace?.Split('\n').FirstOrDefault()?.Trim()
+                ["ExceptionLocation"] = FormatStackTracePath(ex.StackTrace)
             };
 
             throw; // Re-throw to preserve exception behavior
@@ -74,5 +76,34 @@ public class ObservabilityMiddleware
 
             await _logger.LogAsync(entry);
         }
+    }
+
+    /// <summary>
+    /// Extracts and cleans the first line of a stack trace, reducing it to a relative /src/... path.
+    /// </summary>
+    /// <param name="stackTrace">Raw exception stack trace.</param>
+    /// <returns>Formatted location string like 'at /src/...:line ##', or first raw line if pattern not matched.</returns>
+    private static string? FormatStackTracePath(string? stackTrace)
+    {
+        if (string.IsNullOrWhiteSpace(stackTrace)) return null;
+
+        var firstLine = stackTrace.Split('\n').FirstOrDefault()?.Trim();
+        if (firstLine is null) return null;
+
+        var match = Regex.Match(firstLine, @"in (.*?)(:line \d+)", RegexOptions.IgnoreCase);
+        if (match.Success)
+        {
+            var fullPath = match.Groups[1].Value;
+            var lineInfo = match.Groups[2].Value;
+
+            var index = fullPath.IndexOf(@"\src\", StringComparison.OrdinalIgnoreCase);
+            if (index >= 0)
+            {
+                var relativePath = fullPath.Substring(index).Replace("\\", "/");
+                return $"at {relativePath}{lineInfo}";
+            }
+        }
+
+        return firstLine;
     }
 }
