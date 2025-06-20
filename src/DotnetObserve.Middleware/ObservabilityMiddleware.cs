@@ -4,6 +4,7 @@ using DotnetObserve.Core.Abstractions;
 using DotnetObserve.Core.Constants;
 using DotnetObserve.Core.Models;
 using DotnetObserve.Core.Storage;
+using DotnetObserve.Core.Utils;
 using Microsoft.AspNetCore.Http;
 
 namespace DotnetObserve.Middleware;
@@ -39,12 +40,7 @@ public class ObservabilityMiddleware
             await _next(context);
 
             int status = context.Response.StatusCode;
-            entry.Level = status switch
-            {
-                >= 500 => LogLevels.Error,
-                >= 400 => LogLevels.Warning,
-                _ => LogLevels.Info
-            };
+            entry.Level = LogLevelMapper.MapStatusToLogLevel(status);
 
             entry.Message = $"{context.Request.Method} {context.Request.Path} returned {context.Response.StatusCode}";
         }

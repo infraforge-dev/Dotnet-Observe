@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using DotnetObserve.Core.Constants;
 
 namespace DotnetObserve.Core.Models;
 
@@ -20,7 +21,7 @@ public class LogEntry
     /// <summary>
     /// Severity level of the log (e.g., Info, Warn, Error).
     /// </summary>
-    public string Level { get; set; } = "Info";
+    public string Level { get; set; } = LogLevels.Info;
 
     /// <summary>
     /// Main message describing the log event.
