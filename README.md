@@ -4,11 +4,16 @@
 
 # Dotnet-Observe
 
-**Plug-and-Play Observability Toolkit for .NET**
+Plug-and-Play Observability Toolkit for .NET
 
-[![Lint and Build](https://github.com/infraforge-dev/Dotnet-Observe/actions/workflows/ci.yml/badge.svg)](https://github.com/infraforge-dev/Dotnet-Observe/actions/workflows/ci.yml)
-![License](https://img.shields.io/github/license/infraforge-dev/Dotnet-Observe)
-![NuGet](https://img.shields.io/nuget/v/DotnetObserve?label=NuGet)
+<p align="left">
+  <img alt="Latest Release" src="https://img.shields.io/github/v/release/infraforge-dev/dotnet-observe?sort=semver">&nbsp;&nbsp;
+  <a href="https://github.com/infraforge-dev/Dotnet-Observe/actions/workflows/ci.yml">
+    <img alt="Lint and Build" src="https://github.com/infraforge-dev/Dotnet-Observe/actions/workflows/ci.yml/badge.svg">
+  </a>&nbsp;&nbsp;
+  <img alt="License" src="https://img.shields.io/github/license/infraforge-dev/Dotnet-Observe">&nbsp;&nbsp;
+  <img alt="NuGet" src="https://img.shields.io/nuget/v/DotnetObserve?label=NuGet">
+</p>
 
 ---
 
