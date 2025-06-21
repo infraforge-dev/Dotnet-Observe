@@ -17,9 +17,9 @@ public class DefaultObservabilityLoggerTests
             return Task.CompletedTask;
         }
 
-        public Task<IReadOnlyCollection<T>> ReadAllAsync()
+        public Task<IReadOnlyList<T>> ReadAllAsync()
         {
-            return Task.FromResult((IReadOnlyCollection<T>)Items.AsReadOnly());
+            return Task.FromResult((IReadOnlyList<T>)Items);
         }
     }
 
