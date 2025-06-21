@@ -1,5 +1,6 @@
 using DotnetObserve.Core.Models;
 using DotnetObserve.Cli.Rendering;
+using System.Runtime.InteropServices;
 
 namespace DotnetObserve.Cli.Paging;
 
@@ -14,17 +15,15 @@ public static class LogPager
     /// <param name="logs">The logs to display.</param>
     /// <param name="pageSize">Page size to show at once. If 0, displays all logs without paging.</param>
     /// <param name="renderer">The renderer to use for log output.</param>
-    public static void Display(IEnumerable<LogEntry> logs, int pageSize, ILogRenderer renderer)
+    public static void Display(IReadOnlyList<LogEntry> logs, int pageSize, ILogRenderer renderer)
     {
-        var logList = logs.ToList();
-
-        for (int i = 0; i < logList.Count; i++)
+        for (int i = 0; i < logs.Count; i++)
         {
-            renderer.Render(logList[i]);
+            renderer.Render(logs[i]);
 
             if (pageSize > 0 && (i + 1) % pageSize == 0)
             {
-                if (i + 1 < logList.Count)
+                if (i + 1 < logs.Count)
                 {
                     Console.WriteLine();
                     Console.Write("[grey]-- Press any key to continue --[/]");

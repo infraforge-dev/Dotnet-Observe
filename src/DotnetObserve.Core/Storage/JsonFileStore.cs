@@ -37,10 +37,10 @@ public class JsonFileStore<T> : IStore<T>
         await File.WriteAllTextAsync(_filePath, JsonSerializer.Serialize(newList, _jsonOptions));
     }
 
-    public async Task<IReadOnlyCollection<T>> ReadAllAsync()
+    public async Task<IReadOnlyList<T>> ReadAllAsync()
     {
         var json = await File.ReadAllTextAsync(_filePath);
-        return JsonSerializer.Deserialize<IReadOnlyCollection<T>>(json, _jsonOptions)
+        return JsonSerializer.Deserialize<IReadOnlyList<T>>(json, _jsonOptions)
             ?? new List<T>();
     }
 }
