@@ -8,5 +8,5 @@ public interface IStore<T>
 {
     Task AppendAsync(T item);
 
-    Task<IReadOnlyCollection<T>> ReadAllAsync();
+    Task<IReadOnlyList<T>> ReadAllAsync();
 }
