@@ -47,7 +47,7 @@ namespace DotnetObserve.Cli.Commands
                 return;
             }
 
-            ILogRenderer renderer = new JsonRenderer(jsonOption); 
+            ILogRenderer renderer = new JsonRenderer(jsonOption);
 
             LogPager.Display(logs, pageSizeOption, renderer);
         }
