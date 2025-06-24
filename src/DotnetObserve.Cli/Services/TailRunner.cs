@@ -16,12 +16,15 @@ namespace DotnetObserve.Cli.Commands
         /// <summary>
         /// Executes the 'tail' command with the provided options.
         /// </summary>
-        /// <param name="take">Maximum number of log entries to display.</param>
-        /// <param name="level">Log level filter (Info, Warn, Error, etc.).</param>
-        /// <param name="json">Output format: 'pretty' or 'compact'.</param>
-        /// <param name="since">Only include logs after this timestamp.</param>
-        /// <param name="contains">Filter logs containing this keyword.</param>
-        public static async Task Execute(int take, string level, string json, DateTimeOffset? since, string contains, int pageSize, string? format)
+        /// <param name="takeOption">Maximum number of log entries to display.</param>
+        /// <param name="levelOption">Log level filter (Info, Warn, Error, etc.).</param>
+        /// <param name="jsonOption">Output format: 'pretty' or 'compact'. Null if --json is not passed.</param>
+        /// <param name="sinceOption">Only include logs after this timestamp.</param>
+        /// <param name="containsOption">Filter logs containing this keyword.</param>
+        /// <param name="pageSizeOption">How many logs to show per page.</param>
+        /// <param name="formatOption">Optional CLI format (summary/plain).</param>
+        public static async Task Execute(int takeOption, string levelOption, string jsonOption,
+    DateTimeOffset? sinceOption, string containsOption, int pageSizeOption)
         {
             var logPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../SampleApi/test_logs_mixed.json"));
             if (!File.Exists(logPath))
@@ -33,9 +36,9 @@ namespace DotnetObserve.Cli.Commands
             var logStore = new JsonFileStore<LogEntry>(logPath);
             var logs = await logStore.ReadAllAsync();
 
-            logs = LogFilter.Apply(logs, level, since, contains)
+            logs = LogFilter.Apply(logs, levelOption, sinceOption, containsOption)
                 .OrderByDescending(log => log.Timestamp)
-                .Take(take)
+                .Take(takeOption)
                 .ToList();
 
             if (logs.Count == 0)
@@ -44,8 +47,9 @@ namespace DotnetObserve.Cli.Commands
                 return;
             }
 
-            ILogRenderer renderer = RendererFactory.Create(json, format);
-            LogPager.Display(logs, pageSize, renderer);
+            ILogRenderer renderer = new JsonRenderer(jsonOption);
+
+            LogPager.Display(logs, pageSizeOption, renderer);
         }
     }
 }

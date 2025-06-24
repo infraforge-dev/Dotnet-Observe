@@ -34,7 +34,7 @@ public static class LogPager
                 else
                 {
                     Console.WriteLine();
-                    Console.Write("[grey](End of logs)[/]");
+                    Console.Write("--(End of logs)--");
                 }
             }
         }
