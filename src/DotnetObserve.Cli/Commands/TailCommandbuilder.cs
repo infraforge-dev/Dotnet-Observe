@@ -33,10 +33,14 @@ namespace DotnetObserve.Cli.Commands
 
             var jsonOption = new Option<string>(
                 ["--json", "-j"],
-                description: "Output log entries in JSON format. Must be 'pretty' or 'compact'."
+                description: "Output log entries in JSON format. Must be 'pretty' or 'compact'.",
+                parseArgument: result => result.Tokens.Count == 1
+                    ? result.Tokens[0].Value 
+                    : throw new ArgumentException("You must specify a value for --json")
+
             )
             {
-                Arity = ArgumentArity.ExactlyOne
+                Arity = ArgumentArity.ZeroOrMore
             };
 
             var sinceOption = new Option<DateTimeOffset?>(
@@ -76,7 +80,8 @@ namespace DotnetObserve.Cli.Commands
 
             jsonOption.AddValidator(result =>
             {
-                var val = result.GetValueOrDefault<string>()?.ToLowerInvariant();
+                var val = result.Tokens.FirstOrDefault()?.Value?.ToLowerInvariant();
+
                 if (val is not ("pretty" or "compact"))
                     result.ErrorMessage = "Valid values for --json: pretty, compact";
             });

@@ -23,7 +23,7 @@ namespace DotnetObserve.Cli.Commands
         /// <param name="containsOption">Filter logs containing this keyword.</param>
         /// <param name="pageSizeOption">How many logs to show per page.</param>
         /// <param name="formatOption">Optional CLI format (summary/plain).</param>
-        public static async Task Execute(int takeOption, string levelOption, string jsonOption,
+        public static async Task Execute(int takeOption, string levelOption, string? jsonOption,
     DateTimeOffset? sinceOption, string containsOption, int pageSizeOption)
         {
             var logPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../SampleApi/test_logs_mixed.json"));
@@ -47,7 +47,9 @@ namespace DotnetObserve.Cli.Commands
                 return;
             }
 
-            ILogRenderer renderer = new JsonRenderer(jsonOption);
+            ILogRenderer renderer = !string.IsNullOrWhiteSpace(jsonOption)
+                ? new JsonRenderer(jsonOption)
+                : RendererFactory.Create(null);
 
             LogPager.Display(logs, pageSizeOption, renderer);
         }
