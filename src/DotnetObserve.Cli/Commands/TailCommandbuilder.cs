@@ -35,7 +35,7 @@ namespace DotnetObserve.Cli.Commands
                 ["--json", "-j"],
                 description: "Output log entries in JSON format. Must be 'pretty' or 'compact'.",
                 parseArgument: result => result.Tokens.Count == 1
-                    ? result.Tokens[0].Value 
+                    ? result.Tokens[0].Value
                     : throw new ArgumentException("You must specify a value for --json")
 
             )
