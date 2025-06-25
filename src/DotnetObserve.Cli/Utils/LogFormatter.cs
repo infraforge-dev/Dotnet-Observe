@@ -47,10 +47,10 @@ public static class LogFormatter
         var emoji = log.Level switch
         {
             "Error" => "❌",
-            "Warning" or "Warn" => "⚠️",
-            "Info" => "ℹ️",
-            "Debug" => "🐛",
-            "Trace" => "🔍",
+            "Warning" or "Warn" => "⚠️ ",
+            "Info" => "ℹ️ ",
+            "Debug" => "🐛 ",
+            "Trace" => "🔍 ",
             _ => ""
         };
 
@@ -103,7 +103,7 @@ public static class LogFormatter
     private static string FormatRemainingContext(LogEntry log)
     {
         var sb = new StringBuilder();
-        var knownKeys = new HashSet<string> { "Path", "StatusCode", "DurationMs", "ExceptionType", "ExceptionLocation" };
+        var knownKeys = new HashSet<string> { "Path", "StatusCode", "DurationMs", "ExceptionType", "ExceptionLocation", "Method" };
 
         foreach (var kvp in log.Context ?? Enumerable.Empty<KeyValuePair<string, object?>>())
         {

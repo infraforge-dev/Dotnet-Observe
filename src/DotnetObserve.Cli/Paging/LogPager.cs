@@ -26,7 +26,7 @@ public static class LogPager
                 if (i + 1 < logs.Count)
                 {
                     Console.WriteLine();
-                    Console.Write("[grey]-- Press any key to continue --[/]");
+                    Console.Write("-- Press any key to continue --");
                     Console.ReadKey(true);
                     Console.WriteLine();
                     Console.WriteLine();
