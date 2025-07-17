@@ -12,7 +12,7 @@ public static class LogLevelMapper
         [400] = LogLevels.Info,
         [401] = LogLevels.Warning,
         [403] = LogLevels.Warning,
-        [404] = LogLevels.Info,
+        [404] = LogLevels.Warning,
         [429] = LogLevels.Warning,
         [500] = LogLevels.Error,
         [502] = LogLevels.Error,
