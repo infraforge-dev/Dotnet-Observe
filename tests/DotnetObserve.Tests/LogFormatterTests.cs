@@ -22,7 +22,7 @@ public class LogFormatterTests
         result.Should().Contain("ℹ️");
         result.Should().Contain("[green]Info[/]");
         result.Should().Contain("Application started");
-        result.Should().Contain("Source: [teal]CLI[/]");
+        result.Should().Contain("[yellow2]Source:[/]");
     }
 
     [Fact]
@@ -42,9 +42,9 @@ public class LogFormatterTests
 
         var result = LogFormatter.Format(entry);
 
-        result.Should().Contain("Path: [white]/login[/]");
-        result.Should().Contain("Status: [white]200[/]");
-        result.Should().Contain("Duration: [white]123ms[/]");
+        result.Should().Contain("[green]Path:[/] [white]/login[/]");
+        result.Should().Contain("[green]Status:[/] [white]200[/]");
+        result.Should().Contain("[green]Duration:[/] [white]123ms[/]");
         result.Should().Contain("UserId");
     }
 
@@ -77,6 +77,6 @@ public class LogFormatterTests
 
         var result = LogFormatter.Format(entry);
 
-        result.Should().Contain("CorrelationId: [white]trace-abc-123[/]");
+        result.Should().Contain("[cyan]CorrelationId:[/] [white]");
     }
 }

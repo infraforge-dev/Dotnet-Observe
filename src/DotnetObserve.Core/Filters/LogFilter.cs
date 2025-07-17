@@ -1,45 +1,44 @@
 using DotnetObserve.Core.Models;
 
-namespace DotnetObserve.Cli.Utils
+namespace DotnetObserve.Core.Filters;
+
+/// <summary>
+/// Provides filtering logic for collections of <see cref="LogEntry"/> objects based on log level, time, and other criteria.
+/// </summary>
+public static class LogFilter
 {
     /// <summary>
-    /// Provides filtering logic for collections of <see cref="LogEntry"/> objects based on log level, time, and other criteria.
+    /// Applies filter criteria to a list of logs, such as log level, timestamp, and keyword matching.
     /// </summary>
-    public static class LogFilter
+    /// <param name="logs">The collection of log entries to filter.</param>
+    /// <param name="level">Optional log level to filter by (e.g., "Error", "Info").</param>
+    /// <param name="since">Optional timestamp. Only logs with a timestamp after this value will be returned.</param>
+    /// <param name="contains">Optional search keyword. Only logs that contain this keyword in the message or context will be returned.</param>
+    /// <returns>A filtered enumerable of <see cref="LogEntry"/> objects.</returns>
+    public static IEnumerable<LogEntry> Apply(
+        IEnumerable<LogEntry> logs,
+        string? level = null,
+        DateTimeOffset? since = null,
+        string? contains = null)
     {
-        /// <summary>
-        /// Applies filter criteria to a list of logs, such as log level, timestamp, and keyword matching.
-        /// </summary>
-        /// <param name="logs">The collection of log entries to filter.</param>
-        /// <param name="level">Optional log level to filter by (e.g., "Error", "Info").</param>
-        /// <param name="since">Optional timestamp. Only logs with a timestamp after this value will be returned.</param>
-        /// <param name="contains">Optional search keyword. Only logs that contain this keyword in the message or context will be returned.</param>
-        /// <returns>A filtered enumerable of <see cref="LogEntry"/> objects.</returns>
-        public static IEnumerable<LogEntry> Apply(
-            IEnumerable<LogEntry> logs,
-            string? level = null,
-            DateTimeOffset? since = null,
-            string? contains = null)
+        return logs.Where(log =>
         {
-            return logs.Where(log =>
-            {
-                var levelMatch = string.IsNullOrWhiteSpace(level)
-                    || log.Level?.Equals(level, StringComparison.OrdinalIgnoreCase) == true;
+            var levelMatch = string.IsNullOrWhiteSpace(level)
+                || log.Level?.Equals(level, StringComparison.OrdinalIgnoreCase) == true;
 
-                var sinceMatch = !since.HasValue
-                    || log.Timestamp >= since.Value;
+            var sinceMatch = !since.HasValue
+                || log.Timestamp >= since.Value;
 
-                var term = contains?.Trim('"');
+            var term = contains?.Trim('"');
 
-                var containsMatch = string.IsNullOrWhiteSpace(term)
-                    || (log.Message?.IndexOf(term, StringComparison.OrdinalIgnoreCase) >= 0)
-                    || (log.Exception?.Message?.IndexOf(term, StringComparison.OrdinalIgnoreCase) >= 0)
-                    || (log.Source?.IndexOf(term, StringComparison.OrdinalIgnoreCase) >= 0)
-                    || (log.CorrelationId?.IndexOf(term, StringComparison.OrdinalIgnoreCase) >= 0)
-                    || (log.Context?.Any(kv => kv.Value?.ToString()?.IndexOf(term, StringComparison.OrdinalIgnoreCase) >= 0) == true);
+            var containsMatch = string.IsNullOrWhiteSpace(term)
+                || (log.Message?.IndexOf(term, StringComparison.OrdinalIgnoreCase) >= 0)
+                || (log.Exception?.Message?.IndexOf(term, StringComparison.OrdinalIgnoreCase) >= 0)
+                || (log.Source?.IndexOf(term, StringComparison.OrdinalIgnoreCase) >= 0)
+                || (log.CorrelationId?.IndexOf(term, StringComparison.OrdinalIgnoreCase) >= 0)
+                || (log.Context?.Any(kv => kv.Value?.ToString()?.IndexOf(term, StringComparison.OrdinalIgnoreCase) >= 0) == true);
 
-                return levelMatch && sinceMatch && containsMatch;
-            });
-        }
+            return levelMatch && sinceMatch && containsMatch;
+        });
     }
 }

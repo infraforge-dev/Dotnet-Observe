@@ -2,8 +2,8 @@ using DotnetObserve.Core.Models;
 using DotnetObserve.Core.Storage;
 using Spectre.Console;
 using DotnetObserve.Cli.Rendering;
-using DotnetObserve.Cli.Utils;
 using LogPager = DotnetObserve.Cli.Paging.LogPager;
+using DotnetObserve.Core.Filters;
 
 namespace DotnetObserve.Cli.Commands
 {
